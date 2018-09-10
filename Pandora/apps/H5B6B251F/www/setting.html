@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Setting</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			.mui-views,
+			.mui-view,
+			.mui-pages,
+			.mui-page,
+			.mui-page-content {
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				width: 100%;
+				height: 100%;
+				background-color: #efeff4;
+			}
+			.mui-pages {
+				height: auto;
+			}
+			.mui-scroll-wrapper,
+			.mui-scroll {
+				background-color: #efeff4;
+			}
+			.mui-page.mui-transitioning {
+				-webkit-transition: -webkit-transform 300ms ease;
+				transition: transform 300ms ease;
+			}
+			.mui-page-left {
+				-webkit-transform: translate3d(0, 0, 0);
+				transform: translate3d(0, 0, 0);
+			}
+			.mui-ios .mui-page-left {
+				-webkit-transform: translate3d(-20%, 0, 0);
+				transform: translate3d(-20%, 0, 0);
+			}
+			.mui-navbar {
+				position: fixed;
+				right: 0;
+				left: 0;
+				z-index: 10;
+				/*height: 44px;
+				background-color: #00BCD4;*/
+			}
+			.mui-navbar .mui-bar {
+				position: absolute;
+				background: transparent;
+				text-align: center;
+				background-color: #00BCD4;
+				display:flex;
+        			flex-direction:row;
+        			align-items:flex-end;
+			}
+			.mui-android .mui-navbar-inner.mui-navbar-left {
+				opacity: 0;
+			}
+			.mui-ios .mui-navbar-left .mui-left,
+			.mui-ios .mui-navbar-left .mui-center,
+			.mui-ios .mui-navbar-left .mui-right {
+				opacity: 0;
+			}
+			.mui-navbar .mui-btn-nav {
+				-webkit-transition: none;
+				transition: none;
+				-webkit-transition-duration: .0s;
+				transition-duration: .0s;
+				color: #FFFFFF;
+			}
+			.mui-navbar .mui-bar .mui-title {
+				color: #FFFFFF;
+        			height:100%;
+        			align-items: flex-end;
+        			display:flex;
+        			justify-content: center;
+        			flex:1;
+        			overflow: hidden;
+        			text-overflow: ellipsis;
+        			font-size: 17px;
+        			font-weight: 500;
+        			line-height: 44px;
+        			padding: 0,
+        			text-align: center;
+        			whiteSpace: nowrap;
+        			position:static
+			}
+			.mui-page-shadow {
+				position: absolute;
+				right: 100%;
+				top: 0;
+				width: 16px;
+				height: 100%;
+				z-index: -1;
+				content: '';
+			}
+			.mui-page-shadow {
+				background: -webkit-linear-gradient(left, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, .01) 50%, rgba(0, 0, 0, .2) 100%);
+				background: linear-gradient(to right, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, .01) 50%, rgba(0, 0, 0, .2) 100%);
+			}
+			.mui-navbar-inner.mui-transitioning,
+			.mui-navbar-inner .mui-transitioning {
+				-webkit-transition: opacity 300ms ease, -webkit-transform 300ms ease;
+				transition: opacity 300ms ease, transform 300ms ease;
+			}
+			.mui-page {
+				display: none;
+			}
+			.mui-pages .mui-page {
+				display: block;
+			}
+			.mui-page .mui-table-view:first-child {
+				margin-top: 15px;
+			}
+			.mui-page .mui-table-view:last-child {
+				margin-bottom: 30px;
+			}
+			.mui-table-view {
+				margin-top: 20px;
+			}
+			
+			.mui-table-view span.mui-pull-right {
+				color: #999;
+			}
+			.mui-table-view-divider {
+				background-color: #efeff4;
+				font-size: 14px;
+			}
+			.mui-table-view-divider:before,
+			.mui-table-view-divider:after {
+				height: 0;
+			}
+			.head {
+				height: 40px;
+			}
+			#head {
+				line-height: 40px;
+			}
+			.head-img {
+				width: 40px;
+				height: 40px;
+			}
+			#head-img1 {
+				position: absolute;
+				bottom: 10px;
+				right: 40px;
+				width: 40px;
+				height: 40px;
+			}
+			.update {
+				font-style: normal;
+				color: #999999;
+				margin-right: -25px;
+				font-size: 15px
+			}
+			.mui-fullscreen {
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			.mui-ios .mui-navbar .mui-bar .mui-title {
+				position: static;
+			}
+			/*问题反馈在setting页面单独的css*/
+			#feedback .mui-popover{
+				position: fixed;
+			}
+			#feedback .mui-table-view:last-child {
+			    margin-bottom: 0px;
+			}
+			#feedback .mui-table-view:first-child {
+			    margin-top: 0px;
+			}
+			
+			.mui-plus.mui-plus-stream .mui-stream-hidden{
+				display: none !important;
+			}
+			
+			/*问题反馈在setting页面单独的css==end*/
+			
+		</style>
+		<link rel="stylesheet" type="text/css" href="css/feedback.css" />
+	</head>
+
+	<body class="mui-fullscreen">
+		<!--页面主结构开始-->
+		<div id="app" class="mui-views">
+			<div class="mui-view">
+				<div class="mui-navbar">
+				</div>
+				<div id='mp' class="mui-pages">
+				</div>
+			</div>
+		</div>
+		<!--页面主结构结束-->
+		<!--单页面开始-->
+		<div id="setting" class="mui-page">
+			<!--页面标题栏开始-->
+			<div class="mui-navbar-inner mui-bar mui-bar-nav" >
+				<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left" style="color: #ffffff;">
+					<span class="mui-icon mui-icon-left-nav"></span>
+				</button>
+				<h1 class="mui-center mui-title" id="titleText" style="color: #ffffff;">设置</h1>
+			</div>
+			<!--页面标题栏结束-->
+			<!--页面主内容区开始-->
+			<div class="mui-page-content">
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view mui-table-view-chevron">
+							<li class="mui-table-view-cell mui-media">
+								<a class="mui-navigate-right" href="#account">
+									<img class="mui-media-object mui-pull-left head-img" id="head-img" :src="userAvatar">
+									<div class="mui-media-body">
+										{{userName}}
+										<p class='mui-ellipsis'>{{email}}</p>
+									</div>
+								</a>
+							</li>
+						</ul>
+						<ul class="mui-table-view mui-table-view-chevron">
+							<li class="mui-table-view-cell">
+								<a href="#account" class="mui-navigate-right">{{i18n.ACCOUNT_SECURITY}}</a>
+							</li>
+						</ul>
+						<ul class="mui-table-view mui-table-view-chevron">
+							<li class="mui-table-view-cell">
+								<a href="#notifications" class="mui-navigate-right">{{i18n.MESSAGE_NOTIFICATION}}</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="#general" class="mui-navigate-right">{{i18n.GENERAL}}</a>
+							</li>
+							<li v-on:click="toUpdateDomain" class="mui-table-view-cell" id="changeDomain">
+								<a >{{i18n.SWITCH_DOMAIN}}</a>
+							</li>
+						</ul>
+						<ul class="mui-table-view mui-table-view-chevron">
+							<li class="mui-table-view-cell">
+								<a href="#about" class="mui-navigate-right" data-about="href">{{i18n.ABOUT}} <i class="mui-pull-right update">{{version}}</i></a>
+							</li>
+						</ul>
+						<ul class="mui-table-view">
+							<li v-on:click="toLogout" class="mui-table-view-cell" style="text-align: center;color: red;">
+								<a style="line-height:21px">{{i18n.LOG_OUT}}</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!--页面主内容区结束-->
+		</div>
+		<!--单页面结束-->
+		<div id="account" class="mui-page">
+			<div class="mui-navbar-inner mui-bar mui-bar-nav">
+				<button type="button" class="mui-left mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left">
+					<span class="mui-icon mui-icon-left-nav"></span>
+				</button>
+				<h1 class="mui-center mui-title" style="margin-left: -21px;">{{i18n.ACCOUNT_SECURITY}}</h1>
+			</div>
+			<div class="mui-page-content">
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">
+								<a id="head" class="mui-navigate-right">{{i18n.AVATAR}}
+									<span class="mui-pull-right head">
+										<img class="head-img mui-action-preview" id="head-img1" :src="userAvatar"/>
+									</span>
+								</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a>{{i18n.NAME}}<span class="mui-pull-right">{{userName}}</span></a>
+							</li>
+						</ul>
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">
+								<a>{{i18n.EXTENSION_NUMBER}}<span class="mui-pull-right">{{extension}}</span></a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a>{{i18n.PHONENUMBER}}<span class="mui-pull-right">{{phoneNumber}}</span></a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a>{{i18n.EMAIL}}<span class="mui-pull-right">{{email}}</span></a>
+							</li>
+						</ul>
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">
+								<a href="#modify_password" class="mui-navigate-right">{{i18n.MODIFY_PASSWORD}}<span class="mui-pull-right"></span></a>
+							</li>  
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="modify_password" class="mui-page">
+			<div class="mui-navbar-inner mui-bar mui-bar-nav" >
+				<button type="button" class="mui-left mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left">
+					<span class="mui-icon mui-icon-left-nav"></span>
+				</button>
+				<h1 class="mui-center mui-title" style="margin-left: -21px;">{{i18n.MODIFY_PASSWORD}}</h1>
+			</div>
+			<div class="mui-page-content"> 
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<div class="mui-card" style="margin-top: 30px;">
+							<div class="mui-input-group" >
+								<div class="mui-input-row" style="margin-top: 10px;display: flex;justify-content: flex-start;align-items: center;">
+									<label style="width: 80px;padding: 0 0 0 16px;display: flex;align-items: center;">{{i18n.OLD_PASSWORD}}</label>
+									<input style="width: calc(100% - 100px);"  type="text" id="oldPwdInput" class="mui-input-clear" />
+								</div>
+								<div class="mui-input-row" style="margin-top: 10px;display: flex;justify-content: flex-start;align-items: center;">
+									<label style="width: 80px;padding: 0 0 0 16px;display: flex;align-items: center;">{{i18n.NEW_PASSWORD}}</label>
+									<input style="width: calc(100% - 100px);" type="text" id="newPwdInput" class="mui-input-clear" />
+								</div>
+								<div class="mui-input-row" style="margin-top: 10px;display: flex;justify-content: flex-start;align-items: center;">
+									<label style="width: 80px;padding: 0 0 0 16px;display: flex;align-items: center;">{{i18n.CONFIRM_PASSWORD}}</label>
+									<input style="width: calc(100% - 100px);" type="text" id="newPwdAgainInput" class="mui-input-clear" />
+								</div>
+								<div class="mui-button-row" style="margin: 10px 0;padding: 5px 16px;">
+        							<button type="button" id="modifyPwdBtn" data-loading-icon-position="right" style="width: 100%;border-radius: 15px;height: 36px;" class="mui-btn mui-btn-primary" v-on:click="toModifyPassword()">{{i18n.OK}}</button>
+    							</div>
+							</div>
+						</div>
+						<div class="mui-content-padded">
+							<p>{{i18n.MODIFY_PASSWORD_MSG1}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="notifications" class="mui-page">
+			<div id='notifications_head' class="mui-navbar-inner mui-bar mui-bar-nav" >
+				<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+					<span class="mui-icon mui-icon-left-nav"></span>
+				</button>
+				<h1 class="mui-center mui-title" style="margin-left: -21px;">{{i18n.MESSAGE_NOTIFICATION}}</h1>
+			</div>
+			<div class="mui-page-content">
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">
+								{{i18n.NOTIFICATIONS}}
+								<div v-bind:class="[switchClass ,msgModal ? activeClass : '']" v-on:click="setMsgModal()">
+									<div class="mui-switch-handle"></div>
+								</div>
+							</li>
+						</ul>
+						<ul class="mui-table-view" v-bind:style="{display: msgModal? 'block': 'none'}">
+							<li class="mui-table-view-cell">
+								{{i18n.SOUND}}
+								<div v-bind:class="[switchClass ,msgSound ? activeClass : '']" v-on:click="setMsgSound()">
+									<div class="mui-switch-handle"></div>
+								</div>
+							</li>
+							<li class="mui-table-view-cell" v-bind:style="{display: msgModal? 'block': 'none'}">
+								{{i18n.VIBRATE}}
+								<div v-bind:class="[switchClass ,msgShake ? activeClass : '']" v-on:click="setMsgShake()">
+									<div class="mui-switch-handle"></div>
+								</div>
+							</li>
+						</ul>
+						<div class="mui-content-padded" v-bind:style="{display: msgModal? 'block': 'none'}">
+							<p>{{i18n.NOTIFICATION_MSG1}}</p>
+						</div>
+						<ul class="mui-table-view mui-table-view-chevron">
+							<li class="mui-table-view-cell">
+								<a id="functionMsg" href="#" class="mui-navigate-right">{{i18n.PUSH_MSG}}</a>
+							</li>
+						</ul>
+						<div class="mui-content-padded">
+							<p>{{i18n.NOTIFICATION_MSG2}}</p>
+						</div>
+						<div></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="notifications_disturb" class="mui-page">
+			<div class="mui-navbar-inner mui-bar mui-bar-nav" >
+				<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+					<span class="mui-icon mui-icon-left-nav"></span>
+				</button>
+				<h1 class="mui-center mui-title" style="margin-left: -21px;">功能消息免打扰</h1>
+			</div>
+			<div class="mui-page-content">
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view mui-table-view-radio">
+							<li v-bind:class="[radioClass ,msgDnd ? selectedClass : '']" v-on:click="setMsgDnd()">
+								<a class="mui-navigate-right">开启</a>
+							</li>
+							<li v-bind:class="[radioClass ,msgDnd ? '' : selectedClass]" v-on:click="setMsgDnd()">
+								<a class="mui-navigate-right">关闭</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="general" class="mui-page">
+			<div id="general_head" class="mui-navbar-inner mui-bar mui-bar-nav" >
+				<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+					<span class="mui-icon mui-icon-left-nav"></span>
+				</button>
+				<h1 class="mui-center mui-title" style="margin-left: -21px;">{{i18n.GENERAL}}</h1>
+			</div>
+			<div class="mui-page-content">
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">
+								<a href="#language" class="mui-navigate-right">{{i18n.LANGUAGE}}</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="language" class="mui-page">
+			<div class="mui-navbar-inner mui-bar mui-bar-nav" >
+				<button v-on:click="toInitLan()" type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+					<span class="mui-icon mui-icon-left-nav"></span>
+				</button>
+				<h1 class="mui-center mui-title" style="margin-left: -21px;">{{i18n.LANGUAGE}}</h1>
+				<button id="toChangeLan" class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" v-on:click="toSettingLan()">{{i18n.OK}}</button>
+			</div>
+			<div class="mui-page-content">
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view mui-table-view-radio">
+							<li v-bind:class="[radioClass ,language=='cn' ? selectedClass : '']" v-on:click="setLanguage('cn')">
+								<a class="mui-navigate-right">中文</a>
+							</li>
+							<li v-bind:class="[radioClass ,language=='en' ? selectedClass  : '']" v-on:click="setLanguage('en')">
+								<a class="mui-navigate-right">English</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="about" class="mui-page">
+			<div class="mui-navbar-inner mui-bar mui-bar-nav" >
+				<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+					<span class="mui-icon mui-icon-left-nav"></span>
+				</button>
+				<h1 class="mui-center mui-title" data-about="title" style="margin-left: -21px;">{{i18n.ABOUT}}</h1>
+			</div>
+			<div class="mui-page-content">
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view">
+
+							<li v-on:click="checkNewVersion" id="check_update" class="mui-table-view-cell mui-plus-visible">
+								<a id="update" class="mui-navigate-right">{{i18n.CHECK_FOR_UPDATES}}</a>
+							</li>
+						</ul>
+						<div class="mui-content-padded" v-on:click="clickVersion">
+							<p style="text-align: center;">{{i18n.CURRENT_VERSION}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="feedback" class="mui-page feedback">
+			<div class="mui-navbar-inner mui-bar mui-bar-nav" >
+				<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+					<span class="mui-icon mui-icon-left-nav"></span>
+				</button>
+					<h1 class="mui-center mui-title" style="margin-left: -21px;">问题反馈</h1>
+				<button id="submit" class="mui-btn mui-btn-blue mui-btn-link mui-pull-right">发送</button>
+			</div>
+			<div class="mui-page-content">
+				<div class="mui-content-padded">
+					<div class="mui-inline">问题和意见</div>
+					<a class="mui-pull-right mui-inline" href="#popover">
+						快捷输入
+						<span class="mui-icon mui-icon-arrowdown"></span>
+					</a>
+					<!--快捷输入具体内容，开发者可自己替换常用语-->
+					<div id="popover" class="mui-popover">
+						<div class="mui-popover-arrow"></div>
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+									<!--仅流应用环境下显示-->
+									<li class="mui-table-view-cell stream">
+										<a href="#">桌面快捷方式创建失败</a>
+									</li>
+									<li class="mui-table-view-cell"><a href="#">界面显示错乱</a></li>
+									<li class="mui-table-view-cell"><a href="#">启动缓慢，卡出翔了</a></li>
+									<li class="mui-table-view-cell"><a href="#">偶发性崩溃</a></li>
+									<li class="mui-table-view-cell"><a href="#">UI无法直视，丑哭了</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row mui-input-row">
+					<textarea id='question' class="mui-input-clear question" placeholder="请详细描述你的问题和意见..."></textarea>
+				</div>
+				<p>图片(选填,提供问题截图,总大小10M以下)</p>
+				<div id='image-list' class="row image-list"></div>
+				<div class="mui-content-padded">
+					<div class="mui-inline">应用评分</div>
+					<div class="icons mui-inline" style="margin-left: 6px;">
+						<i data-index="1" class="mui-icon mui-icon-star"></i>
+						<i data-index="2" class="mui-icon mui-icon-star"></i>
+						<i data-index="3" class="mui-icon mui-icon-star"></i> 
+						<i data-index="4" class="mui-icon mui-icon-star"></i>
+						<i data-index="5" class="mui-icon mui-icon-star"></i>
+					</div>
+				</div><br />
+			</div>
+		</div>
+
+	</body>
+	<script src="js/mui.min.js "></script>
+	<script src="js/mui.view.js "></script>
+	<script src='js/feedback.js'></script>
+	<script src="js/md5.min.js"></script>
+	<script src="js/util.js"></script>
+	<script src="bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="bower_components/vue/dist/vue.min.js"></script>
+	<script>
+		$('.mui-navbar-inner').css({'height':`${UTIL.getRequest().headHeight}px`,display: 'flex','align-items':'flex-end'})
+		$('.mui-pages').css('top',`${UTIL.getRequest().headHeight}px`)
+		let i18n = {
+			
+		}
+		mui.init();
+		//初始化单页view
+		var viewApi = mui('#app').view({
+			defaultPage: '#setting'
+		});
+		//初始化单页的区域滚动
+		mui('.mui-scroll-wrapper').scroll();
+		//分享操作
+		var shares = {};
+		
+		mui.plusReady(function() {
+			SETTING.initConf()
+			SETTING.initVueDom()
+			
+		});
+		
+		setTimeout(function () {
+			setTimeout(function() {
+				initImgPreview();
+			}, 300);
+		},500);
+		
+
+		var view = viewApi.view;
+		(function($) {
+			//处理view的后退与webview后退
+			var oldBack = $.back;
+			$.back = function() {
+				if (viewApi.canBack()) { //如果view可以后退，则执行view的后退
+					viewApi.back();
+				} else { //执行webview后退
+					oldBack();
+					let cw=plus.webview.currentWebview();
+					setTimeout(()=>{
+						cw.close()
+					},500)
+				}
+			};
+			//监听页面切换事件方案1,通过view元素监听所有页面切换事件，目前提供pageBeforeShow|pageShow|pageBeforeBack|pageBack四种事件(before事件为动画开始前触发)
+			//第一个参数为事件名称，第二个参数为事件回调，其中e.detail.page为当前页面的html对象
+			view.addEventListener('pageBeforeShow', function(e) {
+				//				console.log(e.detail.page.id + ' beforeShow');
+			});
+			view.addEventListener('pageShow', function(e) {
+				console.log(e.detail.page.id + ' show');
+				if(e.detail.page.id == 'account'){
+					document.getElementById('titleText').innerText = i18n.ACCOUNT_SECURITY
+					//更换头像
+					mui(".mui-table-view-cell").off('tap').on("tap", "#head", function(e) {
+						if(mui.os.plus){
+							var a = [{
+									title: i18n.TAKE_A_PHOTO
+								}, {
+									title: i18n.CHOOSE_FROM_MOBILE_PHOTO_ALBUM
+								}];
+							plus.nativeUI.actionSheet({
+								title: i18n.MODIFY_AVATAR,
+								cancel: i18n.CANCEL,
+								buttons: a
+							}, function(b) {
+								switch (b.index) {
+									case 0:
+										break;
+									case 1:
+										getImage(); 
+										break;
+									case 2:
+										galleryImg();
+										break;
+									default:
+										break
+								}
+							})	
+						}
+					});
+					document.getElementById("head-img1").addEventListener('tap', function(e) {
+						e.stopPropagation(); 
+					});	
+				}else if(e.detail.page.id == 'notifications'){
+					document.getElementById('titleText').innerText = i18n.MESSAGE_NOTIFICATION
+					mui(".mui-table-view-cell").off('tap').on("tap", "#functionMsg", function(e) {
+						let pcNotificationPage = plus.webview.getWebviewById('pcNotification');
+              			mui.fire(pcNotificationPage,'initData',{
+
+              			});
+              			setTimeout(function() {
+                  			pcNotificationPage.show("slide-in-right", 300);
+              			}, 150);
+					});
+				}else if(e.detail.page.id == 'language'){
+					document.getElementById('titleText').innerText = i18n.LANGUAGE
+				}else if(e.detail.page.id == 'setting'){
+					document.getElementById('titleText').innerText = i18n.SETTINGS
+				}else if(e.detail.page.id == 'general'){
+					document.getElementById('titleText').innerText = i18n.GENERAL
+				}else if(e.detail.page.id == 'about'){
+					document.getElementById('titleText').innerText = i18n.ABOUT
+				}else if(e.detail.page.id == 'modify_password'){
+					document.getElementById('titleText').innerText = i18n.MODIFY_PASSWORD
+				}
+			});
+			view.addEventListener('pageBeforeBack', function(e) {
+				//				console.log(e.detail.page.id + ' beforeBack');
+			});
+			view.addEventListener('pageBack', function(e) {
+				console.log(e.detail.page.id + ' back');
+				if(e.detail.page.id == 'modify_password'){ 
+					document.getElementById('oldPwdInput').value='';
+					document.getElementById('newPwdInput').value='';
+					document.getElementById('newPwdAgainInput').value='';
+				}else if(e.detail.page.id == 'account'){
+					mui(".mui-table-view-cell").off("tap", "#head");
+					document.getElementById("head-img1").removeEventListener('tap',"#head",false);
+				}else if(e.detail.page.id == 'notifications'){
+					mui(".mui-table-view-cell").off("tap", "#functionMsg");
+				}
+			});
+			
+		})(mui);
+		
+		function getImage() {
+			var c = plus.camera.getCamera();
+			c.captureImage(function(path) {
+				copyAndChange(path);
+			}, function(err) {
+				console.log("error" + err);
+			})
+		}
+
+		function galleryImg() {
+			plus.gallery.pick(function(path) {
+				copyAndChange(path);
+			}, function(err) {
+				console.log("error" + err);
+			}, null)
+		};
+		
+		function copyAndChange(path){
+			plus.io.resolveLocalFileSystemURL(path, function(entry) {
+				 mui.openWindow({
+                    url: 'cropper.html',
+                    id: 'cropper',
+                    extras: {
+                        path: entry.toLocalURL(),
+                    },
+                    show: {
+                        aniShow: 'zoom-fade-in',
+                        duration: 800
+                    },
+                    waiting: {
+                        autoShow: true
+                    }
+               });
+			}, function(e) {
+				console.log("读取图片错误：" + e.message);
+			});
+		}
+		
+		function uploadUserAvatar(domain,id,avatar,callback){
+			let _token = plus.storage.getItem("authToken");
+			mui.ajax(`${domain}/api/uploadUserAvatar`, {
+				crossDomain: true,
+				data:{
+					id:id,
+					avatar:avatar,
+				},
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 30000, //超时时间设置为10秒；
+				headers: {
+					'Content-Type': 'application/json',
+					'x-access-token': _token
+				},
+				success: function(data) {
+					callback(null, data)
+				},
+				error: function(xhr, type, errorThrown) {
+					mui.alert("更换头像失败");
+					callback('error')
+				}
+			});
+		}
+
+		function initImgPreview() {
+			var imgs = document.querySelectorAll("img.mui-action-preview");
+			imgs = mui.slice.call(imgs);
+			if (imgs && imgs.length > 0) {
+				var slider = document.createElement("div");
+				slider.setAttribute("id", "__mui-imageview__");
+				slider.classList.add("mui-slider");
+				slider.classList.add("mui-fullscreen");
+				slider.style.display = "none";
+				slider.addEventListener("tap", function() {
+					slider.style.display = "none";
+				});
+				slider.addEventListener("touchmove", function(event) { 
+					event.preventDefault();
+				})
+				var slider_group = document.createElement("div");
+				slider_group.setAttribute("id", "__mui-imageview__group");
+				slider_group.classList.add("mui-slider-group");
+				imgs.forEach(function(value, index, array) {
+					//给图片添加点击事件，触发预览显示；
+					value.addEventListener('tap', function() {
+						slider.style.display = "block";
+						_slider.refresh();
+						_slider.gotoItem(index, 0);
+					})
+					var item = document.createElement("div");
+					item.classList.add("mui-slider-item");
+					var a = document.createElement("a");
+					var img = document.createElement("img");
+					img.setAttribute("src", value.src);
+					a.appendChild(img)
+					item.appendChild(a);
+					slider_group.appendChild(item);
+				});
+				slider.appendChild(slider_group);
+				document.body.appendChild(slider);
+				var _slider = mui(slider).slider();
+			}
+		}
+		
+		if(mui.os.stream){
+			document.getElementById("check_update").display = "none";
+		}
+		
+		mui('.mui-button-row').on('tap','#modifyPwdBtn',function(){
+			let oldPassword = $('#oldPwdInput').val();
+			let newPassword = $('#newPwdInput').val();
+			let confirmPassword = $('#newPwdAgainInput').val();
+			if(!oldPassword || !newPassword || !confirmPassword){
+				if(plus.storage.getItem('authLan') != 'cn'){
+					mui.alert("Old password or new password or confirmation password cannot be empty")
+				}else{
+					mui.alert("旧密码或新密码或确认密码不能为空")
+				}
+			}else if(newPassword != confirmPassword){
+				if(plus.storage.getItem('authLan') != 'cn'){
+					mui.alert("New password and confirmation password input are inconsistent")
+				}else{
+					mui.alert("新密码和确认密码输入不一致")
+				}
+			}else if(!UTIL.validatePwd(newPassword)){
+				if(plus.storage.getItem('authLan') != 'cn'){
+					mui.alert("The password can only be composed of letters、numbers and underscores, and the length is between 6 and 18")
+				}else{
+					mui.alert("密码只能由字母、数字或下划线组成，长度在6～18之间")
+				}
+			}else{
+				mui(this).button('loading');
+				restPassword(CONFIG.api,md5(oldPassword),md5(newPassword),null, (error, result) => {
+					if(error) {
+						mui(this).button('reset');
+						return
+					}
+					if(result.res<0){
+						mui(this).button('reset');
+						mui.alert(result.msg)
+						return
+					}
+					SETTING.logout();
+				})
+			}
+		})
+		
+		function restPassword(domain,oldPassword,newPassword,lan,callback){
+			let _token = plus.storage.getItem("authToken");
+			mui.ajax(`${domain}/api/restPassword`, {
+				crossDomain: true,
+				data:{
+					oldPassword:oldPassword,
+					newPassword:newPassword,
+					lan:lan,
+				},
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 10000, //超时时间设置为10秒；
+				headers: {
+					'Content-Type': 'application/json',
+					'x-access-token': _token
+				},
+				success: function(data) {
+					callback(null, data)
+				},
+				error: function(xhr, type, errorThrown) {
+					mui.alert("修改密码失败");
+					callback('error')
+				}
+			});
+		}
+		
+		function toSetting(key,value){
+			let opt={};
+        	opt[key]=value;
+        	plus.nativeUI.showWaiting()
+        	setSetting(opt,(error, result) => {
+        		plus.nativeUI.closeWaiting()
+				if(error) {
+					return
+				}
+				if(result.res<0){
+					mui.alert(result.msg)
+					return
+				}
+//				mui.toast("设置成功");
+				if(key == 'password'){
+					console.log('lan=====----===='+result.user.settings.language)
+					result.user.settings.language&&plus.storage.setItem('authLan',result.user.settings.language)
+				}
+				plus.runtime.restart();
+			});
+		}
+		
+		function setSetting(opt,callback){ 
+			console.log("setSetting-=-=-=-" + opt);
+			let _token = plus.storage.getItem("authToken");
+			let domain = CONFIG.api;
+			mui.ajax(`${domain}/api/setSetting`, {
+				crossDomain: true,
+				data:opt,
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 10000, //超时时间设置为10秒；
+				headers: {
+					'Content-Type': 'application/json',
+					'x-access-token': _token
+				},
+				success: function(data) {
+					plus.storage.setItem("authUser", JSON.stringify(data.user));
+					callback(null, data)
+				},
+				error: function(xhr, type, errorThrown) {
+					mui.alert("设置失败");
+					callback('error')
+				}
+			});
+		}
+		
+		let CONFIG={};
+		let API_SITE='';
+		let USER={};
+		let userSIP = {};
+		let DOM={};
+		let appVersion='';
+		let headStyle={
+			backgroundColor: 'red',
+			height:'70px'
+		} 
+		
+		const SETTING={
+			initConf(){
+				CONFIG=JSON.parse(plus.storage.getItem("conf"))
+				appVersion=plus.runtime.version || '1.2.157';
+				API_SITE =plus.storage.getItem("apiSite");
+				USER=JSON.parse(plus.storage.getItem("authUser"))
+				userSIP=JSON.parse(plus.storage.getItem("userSip") || "{}");
+				headStyle={
+			        backgroundColor: '#00BCD4',
+			        height:`${UTIL.getTopOffset()}px`,
+			        display:"flex",
+			        flexDirection:"row",
+			        alignItems:"flex-end"
+			    }
+				if(plus.storage.getItem('authLan') == 'cn'){
+					i18n = {
+						SETTINGS:"设置",
+						ACCOUNT_SECURITY:'账号与安全',
+						MESSAGE_NOTIFICATION:'新消息通知',
+						GENERAL:'通用',
+						SWITCH_DOMAIN:"更改域名",
+						ABOUT:"关于 "+CONFIG.appName,
+						LOG_OUT:"退出登录",
+						AVATAR:'头像',
+						NAME:'姓名',
+						EXTENSION_NUMBER:'分机号',
+						PHONENUMBER:'手机号',
+						EMAIL:'邮箱地址',
+						MODIFY_PASSWORD:'修改密码',
+						LANGUAGE:"语言",
+						NOTIFICATIONS:'接收新消息通知',
+						SOUND:'声音',
+						VIBRATE:'震动',
+						NOTIFICATION_MSG1:'当程序在运行时，你可以设置是否需要声音或者震动',
+						NOTIFICATION_MSG2:'设置电脑客户端在线时是否接收推送通知',
+						PUSH_MSG:'功能消息免打扰',
+						OK:'确定',
+						TAKE_A_PHOTO:'拍照',
+						CHOOSE_FROM_MOBILE_PHOTO_ALBUM:'从手机相册选择',
+						MODIFY_AVATAR:'修改头像',
+						CANCEL:'取消',
+						OLD_PASSWORD:'旧密码',
+						NEW_PASSWORD:'新密码',
+						CONFIRM_PASSWORD:'确认密码',
+						ENTER_OLD_PASSWORD:'请输入旧密码',
+						ENTER_NEW_PASSWORD:'请输入新密码',
+						PLEASE_ENTER_YOUR_NEW_PASSWORD_AGAIN:'请再次输入新密码',
+						MODIFY_PASSWORD_MSG1:'密码只能由字母、数字和下划线组成，长度在6~18之间',
+						SWITCH_DOMAIN_MSG:'更改域名会退出当前登录和设置',
+						CHECK_FOR_UPDATES:'检查更新',
+						CURRENT_VERSION:'版本：'+appVersion,
+						ALRADY_THE_LATEST_VERSION:'已是最新版本'
+					}
+				}else{
+					i18n = {
+						SETTINGS:"Settings",
+						ACCOUNT_SECURITY:'Account Security',
+						MESSAGE_NOTIFICATION:'Message Notifications',
+						GENERAL:'General',
+						SWITCH_DOMAIN:"Switch Domain",
+						ABOUT:"About "+CONFIG.appName,
+						LOG_OUT:"Log Out",
+						AVATAR:'Avatar',
+						NAME:'Name',
+						EXTENSION_NUMBER:'Extension Number',
+						PHONENUMBER:'Phone Number',
+						EMAIL:'Email',
+						MODIFY_PASSWORD:'Modify Password',
+						LANGUAGE:'Language',
+						NOTIFICATIONS:'Notifications',
+						SOUND:'Sound',
+						VIBRATE:'Vibrate',
+						NOTIFICATION_MSG1:'When the program is running, you can set whether you need sound or vibration',
+						NOTIFICATION_MSG2:'Set whether to receive push notifications when the computer client is online',
+						PUSH_MSG:'Push message without interruption',
+						OK:'OK',
+						TAKE_A_PHOTO:'Take a photo',
+						CHOOSE_FROM_MOBILE_PHOTO_ALBUM:'Choose from mobile photo album',
+						MODIFY_AVATAR:'Modify avatar',
+						CANCEL:'Cancel',
+						OLD_PASSWORD:'Old password',
+						NEW_PASSWORD:'New password',
+						CONFIRM_PASSWORD:'Confirm password',
+						ENTER_OLD_PASSWORD:'Enter old password',
+						ENTER_NEW_PASSWORD:'Enter new password',
+						PLEASE_ENTER_YOUR_NEW_PASSWORD_AGAIN:'Please enter new password again',
+						MODIFY_PASSWORD_MSG1:'The password can only be composed of letters、numbers and underscores, and the length is between 6 and 18',
+						SWITCH_DOMAIN_MSG:'Switch domain will quit the current login and settings',
+						CHECK_FOR_UPDATES:'Check for updates',
+						CURRENT_VERSION:'Version: '+appVersion,
+						ALRADY_THE_LATEST_VERSION:'Already the latest version'
+				}
+				}
+				
+				window.addEventListener('updateAvatar',(event)=>{
+					plus.nativeUI.showWaiting();
+					var imgData = event.detail.img_path;
+					var imgMiniPath = `${CONFIG.api}/file/imavatar/${USER.openId}mini.png`+ "?version=" + new Date().getTime();
+					var imgLargerPath = `${CONFIG.api}/file/imavatar/${USER.openId}larger.png`+ "?version=" + new Date().getTime();
+					uploadUserAvatar(CONFIG.api,USER.openId, imgData,(error, result) => {
+						plus.nativeUI.closeWaiting()
+						if(error) {
+							return
+						}
+						if(result.res<0){
+							mui.alert(result.msg)
+							return
+						}
+						document.getElementById("head-img").src = imgMiniPath;
+						document.getElementById("head-img1").src = imgMiniPath;
+						//变更大图预览的src
+						//目前仅有一张图片，暂时如此处理，后续需要通过标准组件实现
+						document.querySelector("#__mui-imageview__group .mui-slider-item img").src = imgLargerPath;
+						let personalPage = plus.webview.getWebviewById('personal')
+						mui.fire(personalPage,'changeAvatar',{
+							win:'setting',
+							action:'changeAvatar',
+							imgPath:imgMiniPath,
+							openId:USER.openId
+						})
+						
+						mui.fire(plus.webview.getWebviewById('chatList'),'reloadRoom');
+					})
+				})
+			},
+			initVueDom(){
+				SETTING.initSetting()
+				SETTING.initAccount()
+				SETTING.initNotification()
+				SETTING.initNotificationDisturb()
+				SETTING.initLanguage()
+				SETTING.initAbout()
+				SETTING.initFeedback()
+				SETTING.initGeneral()
+				SETTING.initModifyPassword()
+			},
+			initSetting(){
+				//setting
+				document.getElementById('titleText').innerText = i18n.SETTINGS
+				DOM.setting=new Vue({
+				  el: '#setting',
+				  data: {
+				    userAvatar: `${API_SITE}/file/imavatar/${USER.openId}larger.png?t=${new Date().getTime()}`,
+				    userName:USER.name,
+				    email:USER.email,
+				    version:appVersion,
+				    i18n:i18n,
+				    appName:CONFIG.appName,
+				    hs:{ backgroundColor: 'red', }
+				  },
+				  methods:{
+				  	toLogout:function(){
+				  		console.log('---toLogout----')
+				  		var btns = [{
+							title: i18n.LOG_OUT
+						}/*, {
+							title: `关闭${CONFIG.appName}`
+						}*/];
+						plus.nativeUI.actionSheet({
+							cancel:i18n.CANCEL,
+							buttons: btns
+						}, function(b) {
+							switch (b.index) {
+								case 0:
+									break;
+								case 1:
+									SETTING.logout();
+									break;
+								case 2:
+									plus.runtime.quit();
+									break;
+								default:
+									break
+							}
+						})	
+				  	},
+				  	toUpdateDomain:function(){
+				  		var btnArray = [i18n.CANCEL,i18n.OK];
+						mui.confirm(i18n.SWITCH_DOMAIN_MSG, i18n.SWITCH_DOMAIN, btnArray, function(e) {
+							if (e.index == 1) {
+								plus.storage.removeItem("confDomain");
+								plus.storage.removeItem("mobileDomain");
+								plus.storage.removeItem("authToken");
+								plus.storage.removeItem("authUser");
+								plus.storage.removeItem("authUserId"); 
+								plus.storage.removeItem('apiSite')
+								plus.storage.removeItem("lauchFlag");
+								plus.storage.removeItem("userSip");
+								plus.runtime.restart();
+							} 
+						})
+				  	}
+				  }
+				})
+			},
+			logout(){
+				let _token = plus.storage.getItem("authToken");
+				let userNames = userSIP.accountList && userSIP.accountList.map((item)=>item.userName) || '';
+				mui.ajax(`${CONFIG.api}/api/deviceOutline/uniqueID/${userNames}`, {
+					crossDomain: true,
+					dataType: 'json', //服务器返回json格式数据
+					type: 'get',
+					timeout: 10000, //超时时间设置为10秒；
+					headers: {
+						'Content-Type': 'application/json',
+						'x-access-token': _token
+					},
+					success: function(data) {
+						plus.storage.removeItem("authToken");
+						plus.storage.removeItem("authUser");
+						plus.storage.removeItem("authUserId");
+						plus.storage.removeItem("userSip");
+						UTIL.removeAllAccount('0');
+						plus.runtime.restart()
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.alert("退出失败");
+					}
+				});
+			},
+			initAccount(){
+				var defaultSIP = userSIP.accountList && userSIP.accountList.find((item)=>item.default == 1);
+				DOM.account=new Vue({
+				  el: '#account',
+				  data: {
+				    userAvatar: `${API_SITE}/file/imavatar/${USER.openId}larger.png?t=${new Date().getTime()}`,
+				    userName:USER.name,
+				    email:USER.email,
+				    phoneNumber:USER.phoneNum,
+				    extension:defaultSIP && defaultSIP.userName
+				  }
+				})
+			},
+			initNotification(){
+				DOM.notification=new Vue({
+					el: '#notifications',
+				  	data: {
+				    	msgModal:USER.settings.message_modal,
+				    	msgSound:USER.settings.message_sound,
+				    	msgShake:USER.settings.message_shake,
+				    	switchClass:'mui-switch mui-switch-mini',
+						activeClass:'mui-active'
+				  	},
+				  	methods:{
+				  		setMsgSound:function(){
+				  			this.msgSound = !this.msgSound;
+				  			var val = this.msgSound?1:0;
+				  			toSetting('sound',val);
+				  		},
+				  		setMsgShake:function(){
+				  			this.msgShake = !this.msgShake;
+				  			var val = this.msgShake?1:0;
+				  			toSetting('shake',val);
+				  		},
+				  		setMsgModal: function(){
+				  			let editMsgModal = ()=>{
+				  				this.msgModal = !this.msgModal;
+					  			var val = this.msgModal?1:0;
+					  			toSetting('modal',val);
+				  			};
+				  			//是否接收新消息通知
+				  			if(this.msgModal){
+				  				//关闭
+				  				plus.nativeUI.actionSheet({
+									title: "关闭后，手机端将不在接收新消息通知",
+									cancel: "取消",
+									buttons: [{
+										title: "确认关闭",
+										color: '#FF0000'
+									}]
+								}, function(b) {
+									switch (b.index) {
+										case 1:
+											//关闭
+											editMsgModal();
+											break;
+										default:
+											break
+									}
+								});	
+				  			}else{
+				  				editMsgModal();
+				  			}
+				  		}
+				  	}
+				})
+			},
+			initNotificationDisturb(){
+				DOM.notificationDisturb=new Vue({
+					el:'#notifications_disturb',
+					data:{
+						msgDnd:USER.settings.message_dnd,
+						radioClass:'mui-table-view-cell',
+						selectedClass:'mui-selected'
+					},
+					methods:{
+				  		setMsgDnd:function(){
+				  			this.msgDnd = !this.msgDnd;
+				  			var val = this.msgDnd?1:0;
+				  			toSetting('dnd',val);
+				  		},
+				  	}
+				})
+			},
+			initLanguage(){
+				DOM.notificationDisturb=new Vue({
+					el:'#language',
+					data:{
+						language:plus.storage.getItem('authLan') || 'cn',
+						radioClass:'mui-table-view-cell',
+						selectedClass:'mui-selected'
+					},
+					methods:{
+				  		setLanguage:function(local){
+				  			this.language = local;
+				  			//toSetting('language',local);
+				  		},
+				  		toSettingLan:function(){
+				  			toSetting('language',this.language)
+				  		},
+				  		toInitLan:function(){
+				  			this.language = plus.storage.getItem('authLan') || 'cn'
+				  		}
+				  	}
+				})
+			},
+			initAbout(){
+				DOM.about=new Vue({
+				  el: '#about',
+				  data: {
+				  	number: 0,
+				  	timer: 0,
+				    version:appVersion,
+				    appName:CONFIG.appName
+				  },
+				  methods:{
+				  	checkNewVersion:function(){
+				  		mui.toast(i18n.ALRADY_THE_LATEST_VERSION)
+				  	},
+				  	clickVersion: function(){
+				  		clearTimeout(this.timer);
+				  		this.timer = setTimeout(()=>{
+				  			this.number = 0;
+				  		}, 5e3)
+				  		//点击6次APP版本弹出服务端版本号
+				  		this.number ++;
+				  		if(this.number == 6){
+				  			mui.toast('SSR version: '+CONFIG.version);
+				  		}else if(this.number == 8){
+				  			var msg = plus.messaging.createMessage(plus.messaging.TYPE_EMAIL);
+							msg.to = ['frank.liu@polylink.net'];
+							msg.subject = '软电话SDK日志';
+							UTIL.getSDKLogs((err, result)=>{
+//								msg.body = "result";
+//								plus.messaging.sendMessage( msg, function () {
+//									mui.alert( "Send success!" );
+//								}, function () {
+									plus.nativeUI.alert('===result==='+result+'==typeof result=='+ typeof result)
+//								} );
+							});
+				  		}
+				  	}
+				  }
+				})
+			},
+			initFeedback(){
+				DOM.feedback=new Vue({
+				  el: '#feedback',
+				  data: {
+				    appName:CONFIG.appName
+				  }
+				})
+			},
+			initGeneral(){
+				DOM.feedback=new Vue({
+				  el: '#general',
+				  data: {
+				    
+				  }
+				})
+			},
+			initModifyPassword(){
+				DOM.feedback=new Vue({
+				  el: '#modify_password',
+				  data: {
+				    
+				  },
+				  methods:{
+				  	toModifyPassword:function(){
+				  		let oldPassword = $('#oldPwdInput').val();
+						let newPassword = $('#newPwdInput').val();
+						let confirmPassword = $('#newPwdAgainInput').val();
+						if(!oldPassword || !newPassword || !confirmPassword){
+							if(plus.storage.getItem('authLan') != 'cn'){
+								mui.alert("Old password or new password or confirmation password cannot be empty")
+							}else{
+								mui.alert("旧密码或新密码或确认密码不能为空")
+							}
+						}else if(newPassword != confirmPassword){
+							if(plus.storage.getItem('authLan') != 'cn'){
+								mui.alert("New password and confirmation password input are inconsistent")
+							}else{
+								mui.alert("新密码和确认密码输入不一致")
+							}
+						}else if(!UTIL.validatePwd(newPassword)){
+							if(plus.storage.getItem('authLan') != 'cn'){
+								mui.alert("The password can only be composed of letters、numbers and underscores, and the length is between 6 and 18")
+							}else{
+								mui.alert("密码只能由字母、数字或下划线组成，长度在6～18之间")
+							}
+						}else{
+							//mui(this).button('loading');
+							restPassword(CONFIG.api,md5(oldPassword),md5(newPassword),null, (error, result) => {
+								if(error) {
+									mui(this).button('reset');
+									return
+								}
+								if(result.res<0){
+									//mui(this).button('reset');
+									mui.alert(result.msg)
+									return
+								}
+								SETTING.logout();
+							})
+						}
+				  	}
+				  }
+				})
+			},
+		}
+		
+		//SETTING.initVueDom()
+		
+	</script>
+
+</html>

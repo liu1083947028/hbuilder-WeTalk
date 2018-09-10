@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			.title {
+				margin: 20px 15px 10px;
+				color: #6d6d72;
+				font-size: 15px;
+				padding-bottom: 51px;
+			}
+			img[src=""]{
+				opacity: 0;
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id='cont' class="mui-content mui-fullscreen" style="background-color: #FFFFFF;">
+			<div data-domain="card" class="mui-card" style="display: none;margin-top: 100px;">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<div class="mui-input-row" style="display: flex;justify-content: flex-start;align-items: center;">
+							<label style="width: 80px;padding: 0 0 0 16px;display: flex;align-items: center;" id="forEncrypt">http://</label>
+							<input style="width: calc(100% - 100px);" id="domainInput" type="text" class="mui-input-clear" placeholder="输入域名">
+						</div>
+					</li>
+					<li class="mui-table-view-cell">
+						<div class="mui-input-row">
+							<label id="encryptionText">加密</label>
+							<div id="encrypt" class="mui-switch mui-switch-blue mui-switch-mini">
+								<div class="mui-switch-handle"></div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div data-domain="card" style="margin: 0 10px; display: none;">
+				<button id="nextBtn" type="button" data-loading-icon-position="right" class="mui-btn mui-btn-primary mui-btn-block mui-btn-outlined">下一步</button>
+			</div>
+			<div data-domain="login" class="mui-card" style="display: none;margin-top: 100px;">
+				<div class="mui-input-group">
+					<div class="mui-input-row" style="margin-top: 10px;display: flex;justify-content: flex-start;align-items: center;">
+						<label style="width: 80px;padding: 0 0 0 16px;display: flex;align-items: center;" id='accountText'>账号</label>
+						<input style="width: calc(100% - 100px);" type="text" id="accountInput" class="mui-input-clear" placeholder="请输入账号"/>
+					</div>
+					<div class="mui-input-row" style="margin-top: 10px;display: flex;justify-content: flex-start;align-items: center;">
+						<label style="width: 80px;padding: 0 0 0 16px;display: flex;align-items: center;" id='passwordText'>密码</label>
+						<input style="width: calc(100% - 100px);" type="password" id="passwordInput" class="mui-input-password" placeholder="请输入密码"/>
+					</div>
+					<div class="mui-button-row" style="margin: 10px 0;padding: 5px 16px;">
+						<button type="button	" id="loginBtn" data-loading-icon-position="right" style="width: 100%;border-radius: 15px;height: 36px;" class="mui-btn mui-btn-primary">登录</button>
+					</div>
+				</div>
+			</div>
+			<div data-domain="login" style="margin: 0 10px; display: none;text-align: center;">
+				<button id="backDomain" type="button" class="mui-btn" style="border:none;">返回设置域名</button>
+			</div>
+			<div style="position:absolute; display: block;top:24px;right:0px;">
+				<button id="lanChange" type="button" class="mui-btn" style="border:none;color:#007aff;">English</button>
+			</div>
+			<div id="oemTitle" style="width: 100%;bottom: 40px;position: absolute;">
+				<p  style="text-align: center;font-family:Tahoma,Helvetica,Arial,'宋体',sans-serif;font-size: 24px"></p>
+			</div>
+		</div>
+		<script src="js/md5.min.js"></script>
+		<script src="js/util.js"></script> 
+		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+		<script type="text/javascript">
+			let appVersion = null;
+			let clientType = null;
+			let indexApp = {
+				storageConf: function(val) {
+					plus.storage.setItem("conf", JSON.stringify(val))
+				},
+				hideDomainInput: function() {
+						$('[data-domain="card"]').hide()
+				},
+				showDomainInput: function() {
+					//清空数据
+					plus.storage.removeItem("confDomain");
+					plus.storage.removeItem("mobileDomain");
+					plus.storage.removeItem("authToken");
+					plus.storage.removeItem("authUser");
+					plus.storage.removeItem("authUserId"); 
+					plus.storage.removeItem('apiSite')
+					plus.storage.removeItem("lauchFlag");
+					
+					$('[data-domain="card"]').show()
+					$('#oemTitle').hide()
+					$('[data-domain="login"]').hide()
+				},
+				hideLoginInput: function() {
+					$('[data-domain="login"]').hide()
+				},
+				showLoginInput: function() {
+					$('[data-domain="login"]').show()
+					$('[data-domain="card"]').hide()
+					$('#oemTitle').hide()
+					let $oemimg=$('#oemLogoimg')
+					if($oemimg.length>0){
+						$oemimg.hide()
+					}
+				},
+				changeTextByLan(lan){
+					if(lan == 'cn'){
+						$('#nextBtn').text('下一步')
+						$('#encryptionText').text('加密')
+						$('#domainInput').attr('placeholder','请输入域名')
+						
+						$('#loginBtn').text('登录')
+						$('#accountText').text('账号')
+						$('#accountInput').attr('placeholder','请输入账号')
+						$('#passwordText').text('密码')
+						$('#passwordInput').attr('placeholder','请输入密码')
+						
+						$('#backDomain').text('返回域名设置')
+						$('#lanChange').text('English')
+					}else{
+						$('#nextBtn').text('Next')
+						$('#encryptionText').text('Encryption')
+						$('#domainInput').attr('placeholder','Please enter domain')
+						
+						$('#loginBtn').text('Sign In')
+						$('#accountText').text('Account')
+						$('#accountInput').attr('placeholder','Please enter account')
+						$('#passwordText').text('Password')
+						$('#passwordInput').attr('placeholder','Please enter password')
+						$('#backDomain').text('Return domain settings')
+						$('#lanChange').text('中文')
+					}
+				},
+				showOemImg: function(img) {
+					if(img){
+						let $oemimg=$('#oemLogoimg')
+						if($oemimg.length>0){
+							$oemimg.show()
+						}else{
+							mui('#cont')[0].insertAdjacentHTML('beforeend', `<img id="oemLogoimg" onerror="this.style.display='none';" border='0' style="position:fixed;top:0;top: 0;width: 100vw;border:none;outline:none;" src="${img}"/>`)						
+						}
+					}
+				},
+				oemTitle:function(title){
+					$('#oemTitle p').html(title)
+				},
+				preloadMain: function(url) {
+					let mobileDomain = plus.storage.getItem("mobileDomain")
+					let mainPage = mui.preload({
+						url: `${url}?headHeight=${UTIL.getTopOffset()}`,
+						id: 'main'
+					});
+					mainPage.overrideResourceRequest([
+						{
+							match:`${mobileDomain}/static/iconfont.css`,
+							redirect:'_www/icons/icon/iconfont.css'
+						},
+				        {
+				            match:`${mobileDomain}/static/css/mui.min.css`,
+				            redirect:'_www/css/mui.min.css'
+				        },
+				        {
+				            match:`${mobileDomain}/static/js/mui.min.js`,
+				            redirect:'_www/js/mui.min.js'
+				        },
+				        {
+				            match:`${mobileDomain}/static/js/socket.io.js`,
+				            redirect:'_www/js/socket.io.js'
+				        }
+				    ])
+				},
+				initMainLoadEvent: function() {
+					window.addEventListener('mainReady', function(event) {
+						plus.navigator.setFullscreen(false);
+						setTimeout(()=>{
+							mui.openWindow({
+							//url:`${_url}${preloads[0]}`,
+							id: 'main',
+							show: {
+								aniShow: 'none', //页面显示动画，默认为”slide-in-right“；
+							},
+						})
+						},200)
+//						mui.openWindow({
+//							//url:`${_url}${preloads[0]}`,
+//							id: 'main',
+//							show: {
+//								aniShow: 'none', //页面显示动画，默认为”slide-in-right“；
+//							},
+//						})
+						//plus.navigator.setFullscreen(false);
+					});
+				},
+				initDomainCardEvent: function() {					
+					//初始化域名卡片的页面
+					document.getElementById("encrypt").addEventListener("toggle", function(event) {
+						if(event.detail.isActive) {
+							$('#forEncrypt').html('https://')
+						} else {
+							$('#forEncrypt').html('http://')
+						}
+					})
+					$("#nextBtn").on('click', function() {
+						let _domain = $('#domainInput').val()
+						if(_domain) {
+							//暂时认为有效
+							_domain = $('#forEncrypt').html() + _domain
+							mui(this).button('loading');
+							initDomain(_domain,()=>{
+								mui(this).button('reset');
+								if(lan == 'cn'){
+									$('#nextBtn').text('下一步')
+								}else{
+									$('#nextBtn').text('Next')
+								}
+							})
+							//plus.storage.setItem("confDomain", _domain);
+						} else {
+							mui.alert("域名不允许为空");
+						}
+					})
+					$("#loginBtn").on('click',function(){
+						let account = $('#accountInput').val();
+						let password = $('#passwordInput').val();
+						if(!account || !password){
+							mui.alert("账号或密码不能为空")
+						}else{
+							let data = plus.storage.getItem("conf")
+								data = data&&JSON.parse(data)
+							let domain = plus.storage.getItem("mobileDomain");
+							if(!data){
+								//indexApp.hideLoginInput()
+								indexApp.showDomainInput()
+							}else{
+								mui(this).button('loading');
+								indexApp.sysUserSignIn(data.api,account,md5(password),lan, (error, authData) => {
+									if(error) {
+										mui(this).button('reset');
+										return
+									}
+									if(authData.res<0){
+										mui(this).button('reset');
+										if(lan == 'cn'){
+											$('#loginBtn').text('登录')
+										}else{
+											$('#loginBtn').text('Sign In')
+										}
+										mui.alert(authData.msg)
+										return
+									}
+									indexApp.loginSuccess(authData, domain, data, false);
+								})
+							}
+						}
+					})
+					$('#backDomain').on('click',function(){
+						indexApp.showDomainInput()
+						indexApp.hideLoginInput()
+					})
+					$('#lanChange').on('click',function(){
+						lan = lan == 'cn'? 'en' : 'cn';
+						indexApp.changeTextByLan(lan)
+					})
+				},
+				loginSuccess: function(authData, domain, data, showOem= true){
+					plus.storage.setItem("authToken", authData.jwt);
+					plus.storage.setItem("authUser", JSON.stringify(authData.user));
+					plus.storage.setItem("authUserId", authData.user._id);
+					plus.storage.setItem("userSip", JSON.stringify(authData.user.sip));
+					plus.storage.setItem("clientWarn", JSON.stringify(authData.warn || {}));
+					let _lan = lan;
+
+					if(authData.user.settings&&authData.user.settings.language){
+						_lan = authData.user.settings.language.toLowerCase()
+						console.log('after lan==-=-='+_lan)
+					}
+					console.log('finally lan=-=-=-='+_lan)
+					plus.storage.setItem("authLan",_lan)
+					let showGuide = plus.storage.getItem("lauchFlag");
+
+					if(showGuide) {
+						//有值，说明已经显示过了，无需显示；
+						indexApp.initMainLoadEvent()
+						//showOem && indexApp.showOemImg(`${domain}${data.oemLogo}`)
+						indexApp.preloadMain(`${domain}${data.main}`)
+						//indexApp.hideLoginInput()
+					} else {
+						//需要显示一下介绍页面
+						indexApp.showGuide()
+						setTimeout(function() {
+							indexApp.preloadMain(`${domain}${data.main}`)
+						}, 200);
+					}
+				},
+				showGuide: function() {
+					mui.openWindow({
+						id: 'guide',
+						url: 'guide.html',
+						styles: {
+							popGesture: "none"
+						},
+						show: {
+							aniShow: 'none'
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				},
+				sysUserSignIn:function(domain,account,password,lan,callback){
+					mui.ajax(`${domain}/api/authMD5`, {
+						crossDomain: true,
+						data:Object.assign({
+							account:account,
+							password:password,
+							lan:lan,
+						},indexApp.getPushInfo()),
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 10000, //超时时间设置为10秒；
+						headers: {
+							'Content-Type': 'application/json',
+							'x-client-version': appVersion,
+							'x-client-type': clientType
+						},
+						success: function(data) {
+							callback(null, data)
+						},
+						error: function(xhr, type, errorThrown) {
+							mui.alert("账号认证失败");
+							callback('error')
+						}
+					});
+				},
+				getPushInfo(){
+				    return plus.push.getClientInfo();
+				},
+				authByToken: function(domain, callback) {
+					let _token = plus.storage.getItem("authToken");
+					mui.ajax(`${domain}/api/authByToken`, {
+						crossDomain: true,
+						dataType: 'json', //服务器返回json格式数据
+						type: 'get', //HTTP请求类型
+						timeout: 10000, //超时时间设置为10秒；
+						headers: {
+							'Content-Type': 'application/json',
+							'x-access-token': _token,
+							'x-client-version': appVersion,
+							'x-client-type': clientType
+						},
+						//data:indexApp.getPushInfo(),
+						success: function(data) {
+							callback(null, data)
+						},
+						error: function(xhr, type, errorThrown) {
+							mui.alert("认证失败,请重新登录");
+							callback('error')
+						}
+					});
+				}
+			}
+
+			//先初始化页面加载完毕的监听
+			//indexApp.initMainLoadEvent()
+			indexApp.initDomainCardEvent()
+			let initDomain = function(domain,callback) {
+				//plus.storage.setItem("mobileDomain",domain);
+				mui.ajax(`${domain}/api/mobile/getConf`, {
+					dataType: 'json', //服务器返回json格式数据
+					type: 'get', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					success: function(data) {
+						callback&&callback()
+						indexApp.storageConf(data)
+						console.log('===data==conf='+JSON.stringify(data))
+						//plus.storage.removeItem("lauchFlag");
+						plus.storage.setItem("mobileDomain", data.site);
+						plus.storage.setItem("confDomain", domain);
+						data.oemLogo&&indexApp.showOemImg(`${data.site}${data.oemLogo}`)
+						indexApp.oemTitle(data.oemTitle||data.appName)
+						//仅支持竖屏显示
+						plus.screen.lockOrientation("portrait-primary");
+						plus.storage.setItem("apiSite", data.api);
+						plus.navigator.closeSplashscreen();
+						console.log(plus.storage.getItem('authToken'))
+						if(plus.storage.getItem('authToken')){
+							indexApp.authByToken(data.api, (error, authData) => {
+								if(error) {
+									indexApp.showLoginInput()
+									return
+								}
+								if(authData.res<0){
+									indexApp.showLoginInput()
+									//mui.alert(authData.msg)
+									return
+								}
+								indexApp.loginSuccess(authData, data.site, data);
+							})
+						}else{
+							indexApp.showLoginInput()
+							//indexApp.hideDomainInput()
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						callback&&callback()
+						mui.alert("无法连接服务器，请检查网络或域名");
+						indexApp.showDomainInput()
+					}
+				});
+			}
+			let lan = 'cn'
+			mui.plusReady(function() {
+				plus.navigator.setFullscreen(true);
+				
+				appVersion = plus.runtime.version || '1.2.170';
+				clientType = mui.os.ios ? 'ios' : 'android';
+				
+				//初始化时获取音频权限
+				let r = plus.audio.getRecorder(),
+					name = 'text.amr';
+				if (mui.os.ios) {
+					name = 'text.wav';
+				}
+				r.record({filename: '_doc/audio/'+name},()=>{
+					console.log('====get audio Permission==')
+				}, (e)=>{
+					console.log('======'+e.message)
+				});
+				setTimeout(()=>{
+					r.stop();
+				}, 2000)
+				
+				let _domain = plus.storage.getItem("confDomain");
+				lan = plus.storage.getItem("authLan")?  plus.storage.getItem("authLan") : plus.os.language&&plus.os.language == 'zh_CN'? 'cn':'en' || 'cn'
+				indexApp.changeTextByLan(lan);
+				if(_domain) {
+					//有找到mobile的domain
+					initDomain(_domain)
+				} else {
+					//没找到domain,停留在启动页面，提示输入domain
+					indexApp.showDomainInput()
+					plus.navigator.closeSplashscreen();
+				}
+			})
+			mui.init({
+				swipeBack: true, //启用右滑关闭功能
+			});
+		</script>
+	</body>
+
+</html>

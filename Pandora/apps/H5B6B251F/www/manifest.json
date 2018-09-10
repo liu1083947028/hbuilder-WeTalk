@@ -1,0 +1,250 @@
+{
+	"@platforms": [
+		"android",
+		"iPhone",
+		"iPad"
+	],
+	"id": "H5B6B251F",
+	"name": "WeTalkUC",
+	"version": {
+		"name": "1.2.158",
+		"code": "83"
+	},
+	"description": "",
+	"icons": {
+		"72": "icon.png"
+	},
+	"launch_path": "index.html",
+	"developer": {
+		"name": "",
+		"email": "",
+		"url": ""
+	},
+	"permissions": {
+		"Cache": {
+			"description": "管理应用缓存"
+		},
+		"Console": {
+			"description": "跟踪调试输出日志"
+		},
+		"Contacts": {
+			"description": "访问系统联系人信息"
+		},
+		"Events": {
+			"description": "应用扩展事件"
+		},
+		"Push": {
+			"description": "管理推送消息插件"
+		},
+		"Speech": {
+			"description": "管理语音识别插件"
+		},
+		"Barcode": {
+			"description": "二维码"
+		},
+		"Audio": {
+			"description": "音频"
+		},
+		"Share": {
+			"description": "社交分享"
+		}
+	},
+	"plus": {
+		"splashscreen": {
+			"autoclose": false,
+			"waiting": false,
+			"delay": "0"
+		},
+		"statusbar": {
+			"immersed": true,
+			"background": "#00BCD4"
+		},
+		"runmode": "liberate",
+		"signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",
+		"distribute": {
+			"plugins": {
+				"share": {
+					"weixin": {
+						"appid": "wx15d7fc077d150cfa",
+						"appsecret": "3436b91f4bb32ce0e12965072c5f6742",
+						"description": "可选，微信分享"
+					}
+				},
+				"push": {
+					"igexin": {
+						"appid": "6sS9XyMI4HAt7z2lbDAbv6",
+						"appkey": "qPENhhdsR96dunXpsmVrC",
+						"appsecret": "qLMn5RrEgt9L6na8K5HDX6"
+					}
+				}
+			},
+			"apple": {
+				"appid": "",
+				"mobileprovision": "",
+				"password": "",
+				"p12": "",
+				"devices": "universal",
+				"frameworks": []
+			},
+			"google": {
+				"packagename": "",
+				"keystore": "",
+				"password": "",
+				"aliasname": "",
+				"permissions": [
+					"<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
+					"<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
+					"<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
+					"<uses-permission android:name=\"com.android.launcher.permission.INSTALL_SHORTCUT\"/>",
+					"<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>",
+					"<uses-permission android:name=\"android.permission.INTERNET\"/>",
+					"<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.VIBRATE\"/>",
+					"<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
+					"<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
+					"<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
+					"<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
+					"<uses-feature android:name=\"android.hardware.camera\"/>",
+					"<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
+					"<uses-permission android:name=\"android.permission.SYSTEM_ALERT_WINDOW\"/>",
+					"<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\"/>",
+					"<uses-permission android:name=\"com.android.launcher.permission.UNINSTALL_SHORTCUT\"/>",
+					"<uses-permission android:name=\"android.permission.CAMERA\"/>"
+				]
+			},
+			"orientation": [
+				"portrait-primary",
+				"portrait-secondary",
+				"landscape-primary",
+				"landscape-secondary"
+			],
+			"icons": {
+				"ios": {
+					"prerendered": true,
+					"iphone": {
+						"normal": "",
+						"retina": "",
+						"spotlight-normal": "",
+						"spotlight-retina": "",
+						"settings-normal": "",
+						"app@2x": "unpackage/res/icons/120x120.png",
+						"app@3x": "unpackage/res/icons/180x180.png",
+						"settings@3x": "unpackage/res/icons/87x87.png",
+						"settings@2x": "unpackage/res/icons/58x58.png",
+						"spotlight@2x": "unpackage/res/icons/80x80.png",
+						"spotlight@3x": "unpackage/res/icons/120x120.png",
+						"notification@2x": "unpackage/res/icons/40x40.png",
+						"notification@3x": "unpackage/res/icons/60x60.png"
+					},
+					"ipad": {
+						"normal": "",
+						"retina": "",
+						"spotlight-normal": "",
+						"spotlight-retina": "",
+						"spotlight": "unpackage/res/icons/40x40.png",
+						"settings@2x": "unpackage/res/icons/58x58.png",
+						"spotlight@2x": "unpackage/res/icons/80x80.png",
+						"app": "unpackage/res/icons/76x76.png",
+						"app@2x": "unpackage/res/icons/152x152.png",
+						"settings": "unpackage/res/icons/29x29.png",
+						"proapp@2x": "unpackage/res/icons/167x167.png",
+						"notification": "unpackage/res/icons/20x20.png",
+						"notification@2x": "unpackage/res/icons/40x40.png"
+					},
+					"appstore": "unpackage/res/icons/1024x1024.png"
+				},
+				"android": {
+					"mdpi": "unpackage/res/icons/48x48.png",
+					"ldpi": "unpackage/res/icons/48x48.png",
+					"hdpi": "unpackage/res/icons/72x72.png",
+					"xhdpi": "unpackage/res/icons/96x96.png",
+					"xxhdpi": "unpackage/res/icons/144x144.png",
+					"xxxhdpi": "unpackage/res/icons/192x192.png"
+				}
+			},
+			"splashscreen": {
+				"ios": {
+					"iphone": {
+						"default": "",
+						"retina35": "img/launch/screen640*960.png",
+						"retina40": "img/launch/screen640*1136.png",
+						"iphonex": "img/launch/screen1125*2436.png",
+						"retina47": "img/launch/screen750*1334.png",
+						"retina55": "img/launch/screen1242*2208.png",
+						"retina55l": "img/launch/screen2208*1242.png",
+						"iphonexl": "img/launch/2436-1125.png"
+					},
+					"ipad": {
+						"portrait": "img/launch/768-1004.png",
+						"portrait-retina": "img/launch/1536-2008.png",
+						"landscape": "img/launch/1024-748.png",
+						"landscape-retina": "img/launch/2048-1496.png",
+						"portrait7": "img/launch/768_1024.png",
+						"portrait-retina7": "img/launch/1536-2048.png",
+						"landscape7": "img/launch/1024-768.png",
+						"landscape-retina7": "img/launch/2048-1536.png"
+					}
+				},
+				"android": {
+					"mdpi": "",
+					"ldpi": "",
+					"hdpi": "img/launch/screen480*800.png",
+					"xhdpi": "img/launch/screen720*1280.png",
+					"xxhdpi": "img/launch/screen1080*1920.png"
+				}
+			},
+			"debug": false
+		},
+		"ads": {
+			"rp": false,
+			"splash": false,
+			"push": false
+		}
+	},
+	"dependencies": {
+		"pages": {
+			"index.html": {
+				"resources": [
+					"css/mui.min.css",
+					"js/util.js"
+				],
+				"refer": [
+					"guide.html"
+				],
+				"priority": 0
+			},
+			"personal.html": {
+				"resources": [],
+				"refer": [
+					"setting.html"
+				],
+				"priority": 0
+			},
+			"setting.html": {
+				"resources": [],
+				"refer": [
+					"guide.html",
+					"index.html"
+				],
+				"priority": 0
+			}
+		},
+		"idle": {
+			"resources": [
+				"js/mui.min.js",
+				"fonts/mui.ttf",
+				"js/mui.js",
+				"css/mui.css"
+			]
+		}
+	},
+	"fullscreen": true,
+	"unpackage": [
+		"css/mui.css",
+		"js/mui.js"
+	]
+}

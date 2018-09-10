@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello WeTalk</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			#close {
+				position: absolute;
+				width: 160px;
+				left: 50%;
+				margin-left: -80px;
+				bottom: 15%;
+				padding: 10px;
+				color: #fff;
+				border-color: #fff;
+			}
+			.item-logo {
+				width: 100%;
+				height: 100%;
+				position: relative;
+			}
+			.item-logo a {
+				width: 200px;
+				height: 200px;
+				display: block;
+				border: 1px solid #FFFFFF;
+				border-color: rgba(255, 255, 255, 0.5);
+				text-align: center;
+				line-height: 200px;
+				border-radius: 50%;
+				font-size: 40px;
+				color: #fff;
+				position: absolute;
+				top: 15%;
+				left: 50%;
+				margin-left: -100px;
+			}
+			.animate {
+				position: absolute;
+				left: 0;
+				bottom: 15%;
+				width: 100%;
+				color: #fff;
+				display: -moz-box;
+			}
+			.animate h2 {
+				text-align: center;
+				margin-bottom: 20px;
+			}
+			.animate li {
+				width: 50%;
+				height: 30px;
+				line-height: 30px;
+				list-style: none;
+				font-size: 16px;
+				text-align: right;
+			}
+			.animate li:nth-child(3) {
+				text-align: left;
+				float: right;
+			}
+			.animated {
+				-webkit-animation-duration: 1s;
+				-webkit-animation-play-state: paused;
+				-webkit-animation-fill-mode: both;
+			}
+			.guide-show .bounceInDown {
+				-webkit-animation-name: bounceInDown;
+				-webkit-animation-play-state: running;
+				-webkit-animation-delay: 1s;
+				display: block;
+			}
+			.guide-show .bounceInLeft {
+				-webkit-animation-name: bounceInLeft;
+				display: block;
+				-webkit-animation-play-state: running;
+			}
+			.guide-show .bounceInRight {
+				-webkit-animation-name: bounceInRight;
+				display: block;
+				-webkit-animation-play-state: running;
+				-webkit-animation-delay: 0.5s;
+			}
+			@-webkit-keyframes bounceInDown {
+				0%, 60%, 75%, 90%, 100% {
+					-webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+					animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+				}
+				0% {
+					opacity: 0;
+					-webkit-transform: translate3d(0, -3000px, 0);
+					transform: translate3d(0, -3000px, 0);
+				}
+				60% {
+					opacity: 1;
+					-webkit-transform: translate3d(0, 25px, 0);
+					transform: translate3d(0, 25px, 0);
+				}
+				75% {
+					-webkit-transform: translate3d(0, -5px, 0);
+					transform: translate3d(0, -5px, 0);
+				}
+				90% {
+					-webkit-transform: translate3d(0, 3px, 0);
+					transform: translate3d(0, 3px, 0);
+				}
+				100% {
+					-webkit-transform: none;
+					transform: none;
+				}
+			}
+			@-webkit-keyframes bounceInLeft {
+				0%, 60%, 75%, 90%, 100% {
+					-webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+					animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+				}
+				0% {
+					opacity: 0;
+					-webkit-transform: translate3d(-3000px, 0, 0);
+					transform: translate3d(-3000px, 0, 0);
+				}
+				60% {
+					opacity: 1;
+					-webkit-transform: translate3d(25px, 0, 0);
+					transform: translate3d(25px, 0, 0);
+				}
+				75% {
+					-webkit-transform: translate3d(-10px, 0, 0);
+					transform: translate3d(-10px, 0, 0);
+				}
+				90% {
+					-webkit-transform: translate3d(5px, 0, 0);
+					transform: translate3d(5px, 0, 0);
+				}
+				100% {
+					-webkit-transform: none;
+					transform: none;
+				}
+			}
+			@-webkit-keyframes bounceInRight {
+				0%, 60%, 75%, 90%, 100% {
+					-webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+					animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+				}
+				0% {
+					opacity: 0;
+					-webkit-transform: translate3d(3000px, 0, 0);
+					transform: translate3d(3000px, 0, 0);
+				}
+				60% {
+					opacity: 1;
+					-webkit-transform: translate3d(-25px, 0, 0);
+					transform: translate3d(-25px, 0, 0);
+				}
+				75% {
+					-webkit-transform: translate3d(10px, 0, 0);
+					transform: translate3d(10px, 0, 0);
+				}
+				90% {
+					-webkit-transform: translate3d(-5px, 0, 0);
+					transform: translate3d(-5px, 0, 0);
+				}
+				100% {
+					-webkit-transform: none;
+					transform: none;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="slider" class="mui-slider mui-fullscreen" style="background-color: black;">
+			<div class="mui-slider-group">
+				
+			</div>
+			<div class="mui-slider-indicator">
+			</div>
+		</div>
+		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script>
+			let mainUrl,btnClick=false,pageLoaded=false;
+			let slideBean = function(slide,index,noInfo){
+				if(noInfo){
+					return `<div class="mui-slider-item">
+								<div class="item-logo" style="background-color: ${slide.background}">
+									<a href="#">
+										${slide.title}
+									</a>
+									<div class="animate">
+										<button id='close' class="mui-btn mui-btn-warning mui-btn-outlined">立即体验</button>
+									</div>
+								</div>
+							</div>`
+				}
+				let _state='mui-hidden'
+				let _idStr='';
+				if(index==0){
+					_state='guide-show'
+				}else{
+					_idStr=`id="tips-${index+1}"`
+				}
+				
+				return `<div class="mui-slider-item">
+							<div class="item-logo" style="background-color: ${slide.background}">
+								<a href="#">
+									${slide.title}
+								</a>
+								<div ${_idStr} class="animate ${_state}">
+									<h2 class="animated bounceInDown">${slide.important}</h2>
+									<li class="animated bounceInLeft">${slide.subTitle[0]}</li>
+									<li class="animated bounceInRight">${slide.subTitle[1]}</li>
+								</div>
+							</div>
+						</div>`
+			}
+			let gotoMainPage=function(){
+				plus.nativeUI.closeWaiting()
+				plus.storage.setItem("lauchFlag", "true");
+					mui.openWindow({
+							     	id:'main',
+								})
+					setTimeout(()=>{
+						plus.navigator.setFullscreen(false);
+						plus.webview.getWebviewById('guide').close()
+						plus.webview.getLaunchWebview().close()
+					},300)
+			}
+			let initSlide = function(guide){
+				let slides='';
+				let indicatorStr=''
+				for(let i=0;i<guide.length;i++){
+					slides+=slideBean(guide[i],i,i==(guide.length-1))
+					let _ac='';
+					if(i==0){
+						_ac='mui-active'
+					}
+					indicatorStr+=`<div class="mui-indicator ${_ac}"></div>`
+				}
+				$('.mui-slider-group').html(slides)
+				$('.mui-slider-indicator').html(indicatorStr)
+				var gallery = mui('.mui-slider');
+				gallery.slider().gotoItem(0);
+							//立即体验按钮点击事件
+				document.getElementById("close").addEventListener('tap', function(event) {
+					btnClick=true
+					if(pageLoaded){
+						//如果已经是加载完了，直接进入
+						gotoMainPage()
+					}else{
+						//否则等待
+						plus.nativeUI.showWaiting()
+					}
+				}, false);
+				
+			}
+			mui.back = function() {};
+			mui.plusReady(function() {
+				if(mui.os.ios){
+					plus.navigator.setFullscreen(true);
+				}
+				let conf = plus.storage.getItem("conf")
+				let mobileDomain = plus.storage.getItem("mobileDomain")
+				if(conf){
+					let confObj = JSON.parse(conf)
+					initSlide(confObj.guide)
+					mainUrl=mobileDomain+confObj.main
+				}
+				plus.navigator.closeSplashscreen();
+			});
+			//图片切换时，触发动画
+			document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+			 	//注意slideNumber是从0开始的；
+			 	var index = event.detail.slideNumber+1;
+			 	if(event.detail.slideNumber!=0&&event.detail.slideNumber!=$('.mui-slider-item').length-1){
+			 		var item = document.getElementById("tips-"+index);
+			 		if(item.classList.contains("mui-hidden")){
+			 			item.classList.remove("mui-hidden");
+			 			item.classList.add("guide-show");
+			 		}
+			 	}
+			});
+			
+			window.addEventListener('mainReady', function(event) {
+				//btnClick=false,pageLoaded=false;
+				pageLoaded=true
+				if(btnClick){
+					//已经点过了，直接进入
+					gotoMainPage()
+				} 
+			});
+			
+		</script>
+	</body>
+
+</html>
