@@ -470,8 +470,9 @@
     NSString* content = [command.arguments objectAtIndex:2];
     NSString* payload = [command.arguments objectAtIndex:3];
     NSString* type = [command.arguments objectAtIndex:4];
+    NSString* msgSound = [command.arguments objectAtIndex:5];
     
-    [self sendNoticationWithHandle:title body:content payload:payload type:type];
+    [self sendNoticationWithHandle:title body:content payload:payload type:type msgSound:msgSound];
     NSArray* pResultString = [NSArray arrayWithObjects:@"1", nil];
     PDRPluginResult *result = [PDRPluginResult resultWithStatus:PDRCommandStatusOK messageAsArray: pResultString];
     [self toCallback:cbId withReslut:[result toJSONString]];
@@ -490,75 +491,14 @@
 //注册为voip通知
 - (void)registerVoipNotifications:(PGMethod*)command
 {
-    /*[[PLController shared] addDebugLogsWithMsg:@"registerVoipNotifications=====start"];
-    
-    
-    
-    PKPushRegistry * voipRegistry = [[PKPushRegistry alloc]initWithQueue:dispatch_get_main_queue()];
-    
-    voipRegistry.delegate = self;
-    voipRegistry.desiredPushTypes = [NSSet setWithObject:PKPushTypeVoIP];
-    
-    UIUserNotificationType types = (UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert);
-    
-    UIUserNotificationSettings * notificationSettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
-    
-    [[UIApplication sharedApplication]registerUserNotificationSettings:notificationSettings];
-    
-   [[PLController shared] addDebugLogsWithMsg:@"registerVoipNotifications=====end"];*/
     NSString* cbId = [command.arguments objectAtIndex:0];
     NSArray* pResultString = [NSArray arrayWithObjects:@"1", nil];
     PDRPluginResult *result = [PDRPluginResult resultWithStatus:PDRCommandStatusOK messageAsArray: pResultString];
     [self toCallback:cbId withReslut:[result toJSONString]];
 }
 
-/*/获取voip token
-- (void)pushRegistry:(PKPushRegistry *)registry didUpdatePushCredentials:(PKPushCredentials *)credentials forType:(NSString *)type{
-    [[PLController shared] addDebugLogsWithMsg:@"getvoiptoken pushRegistry=====start"];
-    NSString *str = [NSString stringWithFormat:@"%@",credentials.token];
-    NSString *tokenStr = [[[str stringByReplacingOccurrencesOfString:@"<" withString:@""]
-                            stringByReplacingOccurrencesOfString:@">" withString:@""] stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSString* rt = [NSString stringWithFormat:@"pushRegistry tokenStr=%@",
-                    tokenStr
-                    ];
-    [[PLController shared] addDebugLogsWithMsg:rt];
-    [[PLController shared] setTokenWithToken:tokenStr];
-}
-
-
-//收到voip push
-- (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(NSString *)type{
-    
-    UIUserNotificationType theType = [UIApplication sharedApplication].currentUserNotificationSettings.types;
-    
-    if (theType == UIUserNotificationTypeNone)
-    {
-        UIUserNotificationSettings *userNotifySetting = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert categories:nil];
-        [[UIApplication sharedApplication] registerUserNotificationSettings:userNotifySetting];
-    }
-    
-    NSDictionary * dic = payload.dictionaryPayload;
-    
-    NSLog(@"dic  %@",dic);
-    
-    if ([dic[@"cmd"] isEqualToString:@"call"]) {
-        UILocalNotification *backgroudMsg = [[UILocalNotification alloc] init];
-        backgroudMsg.alertBody= @"You receive a new call";
-        backgroudMsg.soundName = @"ring.caf";
-        backgroudMsg.applicationIconBadgeNumber = [[UIApplication sharedApplication]applicationIconBadgeNumber] + 1;
-        [[UIApplication sharedApplication] presentLocalNotificationNow:backgroudMsg];
-    }else if([dic[@"cmd"] isEqualToString:@"cancel"]){
-        
-        [[UIApplication sharedApplication] cancelAllLocalNotifications];
-        
-        UILocalNotification * wei = [[UILocalNotification alloc] init];
-        wei.alertBody= [NSString stringWithFormat:@"%ld 个未接来电",(long)[[UIApplication sharedApplication]applicationIconBadgeNumber]];
-        wei.applicationIconBadgeNumber = [[UIApplication sharedApplication]applicationIconBadgeNumber];
-        [[UIApplication sharedApplication] presentLocalNotificationNow:wei];
-    }
-}*/
-
-- (void)sendNoticationWithHandle:(NSString*)title body:(NSString*)body payload:(NSString*)payload type:(NSString*)type  {
+//发送本地通知
+- (void)sendNoticationWithHandle:(NSString*)title body:(NSString*)body payload:(NSString*)payload type:(NSString*)type msgSound:(NSString*)msgSound  {
     if (title == NULL || type == NULL) { return; }
     NSLog(@"Send local notification %@, '%@'", title, type);
     [UNUserNotificationCenter currentNotificationCenter].delegate = self;
@@ -574,9 +514,13 @@
     UNMutableNotificationContent *content = [UNMutableNotificationContent new];
     content.title = title;
     content.body = body;
+    [content setValue:@(YES) forKeyPath:@"shouldAlwaysAlertWhileAppIsForeground"];//很重要的设置,前后台都需要显示通知
     NSDictionary* dict = [[NSDictionary alloc] initWithObjectsAndKeys:payload,@"payload",nil];
     content.userInfo = dict;
-    content.sound = [UNNotificationSound defaultSound];
+    if([msgSound isEqualToString:@"1"]){
+        content.sound = [UNNotificationSound defaultSound];
+    }
+    
     if([type isEqualToString:@"voipMsg"]){
 //        NSSet *categories = [NSSet setWithObject:category];
 //        [[UNUserNotificationCenter currentNotificationCenter] setNotificationCategories:categories];
@@ -585,10 +529,6 @@
 
     UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:0.1 repeats:NO];
     
-//    NSDate* date = [NSDate date];
-//    NSLog(@"%@", [date description]);
-//    [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"CST"]];
-//    NSDate* nDate = [NSDate date];
     
     NSTimeInterval seconds = [NSDate timeIntervalSinceReferenceDate];
     NSString *identifier = [NSString stringWithFormat:@"localNotification.%f", seconds];

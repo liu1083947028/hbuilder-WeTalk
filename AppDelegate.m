@@ -280,6 +280,40 @@ void UncaughtExceptionHandler(NSException *exception) {
     [[PLController shared] setTokenWithToken:tokenStr];
 }
 
+//收到voip push
+- (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(NSString *)type{
+    
+    [[PLController shared] addDebugLogsWithMsg:@"receive incoming push"];
+    
+    UIUserNotificationType theType = [UIApplication sharedApplication].currentUserNotificationSettings.types;
+    
+    if (theType == UIUserNotificationTypeNone)
+    {
+        UIUserNotificationSettings *userNotifySetting = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:userNotifySetting];
+    }
+    
+    NSDictionary * dic = payload.dictionaryPayload;
+    
+    NSLog(@"dic  %@",dic);
+    
+    if ([dic[@"cmd"] isEqualToString:@"call"]) {
+        UILocalNotification *backgroudMsg = [[UILocalNotification alloc] init];
+        backgroudMsg.alertBody= @"You receive a new call";
+        backgroudMsg.soundName = @"ring.caf";
+        backgroudMsg.applicationIconBadgeNumber = [[UIApplication sharedApplication]applicationIconBadgeNumber] + 1;
+        [[UIApplication sharedApplication] presentLocalNotificationNow:backgroudMsg];
+    }else if([dic[@"cmd"] isEqualToString:@"cancel"]){
+        
+        [[UIApplication sharedApplication] cancelAllLocalNotifications];
+        
+        UILocalNotification * wei = [[UILocalNotification alloc] init];
+        wei.alertBody= [NSString stringWithFormat:@"%ld 个未接来电",(long)[[UIApplication sharedApplication]applicationIconBadgeNumber]];
+        wei.applicationIconBadgeNumber = [[UIApplication sharedApplication]applicationIconBadgeNumber];
+        [[UIApplication sharedApplication] presentLocalNotificationNow:wei];
+    }
+}
+
 #pragma mark -
 #pragma mark - core delegate
 - (BOOL)interruptCloseSplash {
