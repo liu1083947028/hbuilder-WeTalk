@@ -183,33 +183,11 @@
     [self fireEvent:@"newCallRecordGenerated" args: result];
 }
 
-void UncaughtExceptionHandler(NSException *exception) {
-    /**
-     *  获取异常崩溃信息
-     */
-    NSArray *callStack = [exception callStackSymbols];
-    NSString *reason = [exception reason];
-    NSString *name = [exception name];
-    NSString *content = [NSString stringWithFormat:@"========异常错误报告========\nname:%@\nreason:\n%@\ncallStackSymbols:\n%@",name,reason,[callStack componentsJoinedByString:@"\n"]];
-    
-    /**
-     *  把异常崩溃信息发送至开发者邮件
-     */
-    NSMutableString *mailUrl = [NSMutableString string];
-    [mailUrl appendString:@"mailto:frank.liu@polylink.net"];
-    [mailUrl appendString:@"?subject=程序异常崩溃，请配合发送异常报告，谢谢合作！"];
-    [mailUrl appendFormat:@"&body=%@", content];
-    // 打开地址
-    NSString *mailPath = [mailUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:mailPath]];
-}
-
 /*
  * @Summary:程序启动时收到push消息
  */
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    NSSetUncaughtExceptionHandler(&UncaughtExceptionHandler);
     
     //注册VOIP PUSH
     PKPushRegistry *pushRegistry = [[PKPushRegistry alloc] initWithQueue:dispatch_get_main_queue()];

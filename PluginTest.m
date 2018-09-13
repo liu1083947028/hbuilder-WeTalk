@@ -29,6 +29,27 @@
     NSLog(@"5+ WebApp启动时触发");
 }
 
+void UncaughtExceptionHandler(NSException *exception) {
+    /**
+     *  获取异常崩溃信息
+     */
+    NSArray *callStack = [exception callStackSymbols];
+    NSString *reason = [exception reason];
+    NSString *name = [exception name];
+    NSString *content = [NSString stringWithFormat:@"========异常错误报告========\nname:%@\nreason:\n%@\ncallStackSymbols:\n%@",name,reason,[callStack componentsJoinedByString:@"\n"]];
+    
+    /**
+     *  把异常崩溃信息发送至开发者邮件
+     */
+    NSMutableString *mailUrl = [NSMutableString string];
+    [mailUrl appendString:@"mailto:frank.liu@polylink.net"];
+    [mailUrl appendString:@"?subject=程序异常崩溃，请配合发送异常报告，谢谢合作！"];
+    [mailUrl appendFormat:@"&body=%@", content];
+    // 打开地址
+    NSString *mailPath = [mailUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:mailPath]];
+}
+
 // 监听基座事件事件
 // 应用退出时触发
 - (void) onAppTerminate{
@@ -53,6 +74,7 @@
 //初始化
 - (void)initialize:(PGMethod*)command
 {
+    NSSetUncaughtExceptionHandler(&UncaughtExceptionHandler);
     // 根据传入获取参数
     NSString* cbId = [command.arguments objectAtIndex:0];
     NSString* token = [command.arguments objectAtIndex:1];
