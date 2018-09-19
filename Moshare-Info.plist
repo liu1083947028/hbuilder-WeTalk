@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>zh_CN</string>
 	<key>CFBundleDisplayName</key>
-	<string>WeTalkUC</string>
+	<string>Moshare</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIcons</key>
@@ -21,7 +21,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.1.9180</string>
+	<string>2.0.0005</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -33,7 +33,7 @@
 			<string>wetalk</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wetalk741faa9c2e2b8367</string>
+				<string>polylink-wetalk</string>
 			</array>
 		</dict>
 		<dict>
@@ -69,7 +69,7 @@
 			<string>weixin</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wx15d7fc077d150cfa</string>
+				<string>wxb75b4488af5ae980</string>
 			</array>
 		</dict>
 		<dict>
@@ -84,7 +84,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2.1.9180</string>
+	<string>2.0.0005</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
@@ -315,11 +315,11 @@
 	<key>getui</key>
 	<dict>
 		<key>appid</key>
-		<string>6sS9XyMI4HAt7z2lbDAbv6</string>
+		<string>hIbzDF2P8e92svw22uYi98</string>
 		<key>appkey</key>
-		<string>qPENhhdsR96dunXpsmVrC</string>
+		<string>JbpnDkyqmR7Ump74qZnBj8</string>
 		<key>appsecret</key>
-		<string>qLMn5RrEgt9L6na8K5HDX6</string>
+		<string>MiToCmauKaAnFTAYsRuN44</string>
 	</dict>
 	<key>iFly</key>
 	<dict>
