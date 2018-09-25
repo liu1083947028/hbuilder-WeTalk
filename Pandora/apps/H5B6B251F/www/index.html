@@ -63,8 +63,29 @@
 					</div>
 				</div>
 			</div>
+			<div data-domain="guestLogin" class="mui-card" style="display: none;margin-top: 100px;">
+				<div class="mui-input-group">
+					<div class="mui-input-row" style="margin-top: 10px;display: flex;justify-content: flex-start;align-items: center;">
+						<label style="width: 80px;padding: 0 0 0 16px;display: flex;align-items: center;" id='emailText'>邮箱</label>
+						<input style="width: calc(100% - 100px);" type="text" id="emailInput" class="mui-input-clear" placeholder="请输入邮箱"/>
+					</div>
+					<div class="mui-input-row" style="margin-top: 10px;display: flex;justify-content: flex-start;align-items: center;">
+						<label style="width: 80px;padding: 0 0 0 16px;display: flex;align-items: center;" id='nickNameText'>昵称</label>
+						<input style="width: calc(100% - 100px);" type="text" id="nickNameInput" class="mui-input-clear" placeholder="请输入昵称"/>
+					</div>
+					<div class="mui-button-row" style="margin: 10px 0;padding: 5px 16px;">
+						<button type="button	" id="guestLoginBtn" data-loading-icon-position="right" style="width: 100%;border-radius: 15px;height: 36px;" class="mui-btn mui-btn-primary">立即进入</button>
+					</div>
+				</div>
+			</div>
 			<div data-domain="login" style="margin: 0 10px; display: none;text-align: center;">
 				<button id="backDomain" type="button" class="mui-btn" style="border:none;">返回设置域名</button>
+			</div>
+			<div data-domain="touristDiv" style="margin: 0 10px; display: none;text-align: center;">
+				<button id="touristBtn" type="button" class="mui-btn" style="border:none;">继续使用游客登录</button>
+			</div>
+			<div data-domain="sysUserDiv" style="margin: 0 10px; display: none;text-align: center;">
+				<button id="sysUserBtn" type="button" class="mui-btn" style="border:none;">使用系统用户登录</button>
 			</div>
 			<div style="position:absolute; display: block;top:24px;right:0px;">
 				<button id="lanChange" type="button" class="mui-btn" style="border:none;color:#007aff;">English</button>
@@ -103,6 +124,14 @@
 				hideLoginInput: function() {
 					$('[data-domain="login"]').hide()
 				},
+				showGuestLoginInput: function(){
+					$('[data-domain="guestLogin"], [data-domain="sysUserDiv"]').show()
+					$('[data-domain="touristDiv"]').hide()
+				},
+				hideGuestLoginInput: function(){
+					$('[data-domain="guestLogin"], [data-domain="sysUserDiv"]').hide()
+					$('[data-domain="touristDiv"]').show()
+				},
 				showLoginInput: function() {
 					$('[data-domain="login"]').show()
 					$('[data-domain="card"]').hide()
@@ -110,6 +139,12 @@
 					let $oemimg=$('#oemLogoimg')
 					if($oemimg.length>0){
 						$oemimg.hide()
+					}
+					//查看是否是schemes方式打开的app
+					let args = indexApp.getStartParms();
+					if("scheme" == args.launcher){
+						//显示游客登录按钮
+						//$('[data-domain="touristDiv"]').show();
 					}
 				},
 				changeTextByLan(lan){
@@ -119,12 +154,19 @@
 						$('#domainInput').attr('placeholder','请输入域名')
 						
 						$('#loginBtn').text('登录')
+						$("#guestLoginBtn").text("立即进入")
 						$('#accountText').text('账号')
 						$('#accountInput').attr('placeholder','请输入账号')
+						$('#emailText').text('邮箱')
+						$('#emailInput').attr('placeholder','请输入邮箱')
+						$('#nickNameText').text('昵称')
+						$('#nickNameInput').attr('placeholder','请输入昵称')
 						$('#passwordText').text('密码')
 						$('#passwordInput').attr('placeholder','请输入密码')
 						
 						$('#backDomain').text('返回域名设置')
+						$('#touristBtn').text('继续使用游客登录')
+						$('#sysUserBtn').text('使用系统用户登录')
 						$('#lanChange').text('English')
 					}else{
 						$('#nextBtn').text('Next')
@@ -132,11 +174,19 @@
 						$('#domainInput').attr('placeholder','Please enter domain')
 						
 						$('#loginBtn').text('Sign In')
+						$("#guestLoginBtn").text("Enter")
 						$('#accountText').text('Account')
 						$('#accountInput').attr('placeholder','Please enter account')
 						$('#passwordText').text('Password')
 						$('#passwordInput').attr('placeholder','Please enter password')
+						$('#emailText').text('Email')
+						$('#emailInput').attr('placeholder','Please enter email')
+						$('#nickNameText').text('NickName')
+						$('#nickNameInput').attr('placeholder','Please enter nickName')
+						
 						$('#backDomain').text('Return domain settings')
+						$("#touristBtn").text("Continue as a guest user")
+						$("#sysUserBtn").text("Use as a system user")
 						$('#lanChange').text('中文')
 					}
 				},
@@ -154,7 +204,8 @@
 					$('#oemTitle p').html(title)
 				},
 				preloadMain: function(url) {
-					let mobileDomain = plus.storage.getItem("mobileDomain")
+					let mobileDomain = plus.storage.getItem("mobileDomain");
+					url || (url = mobileDomain + plus.storage.getItem("dataMainUrl"));
 					let mainPage = mui.preload({
 						url: `${url}?headHeight=${UTIL.getTopOffset()}`,
 						id: 'main'
@@ -179,26 +230,40 @@
 				    ])
 				},
 				initMainLoadEvent: function() {
+					var timeoutFlag = false,
+						enterRoomFlag = false;
 					window.addEventListener('mainReady', function(event) {
+						if(timeoutFlag){
+							//超时加载页面，后面的不执行，需要重新登录
+							return;
+						}
+						enterRoomFlag = true;
 						plus.navigator.setFullscreen(false);
 						setTimeout(()=>{
 							mui.openWindow({
-							//url:`${_url}${preloads[0]}`,
-							id: 'main',
-							show: {
-								aniShow: 'none', //页面显示动画，默认为”slide-in-right“；
-							},
-						})
+								id: 'main',
+								show: {
+									aniShow: 'none', //页面显示动画，默认为”slide-in-right“；
+								},
+							});
 						},200)
-//						mui.openWindow({
-//							//url:`${_url}${preloads[0]}`,
-//							id: 'main',
-//							show: {
-//								aniShow: 'none', //页面显示动画，默认为”slide-in-right“；
-//							},
-//						})
-						//plus.navigator.setFullscreen(false);
 					});
+					
+					var time = 0;
+					var checkEnterMainPageTimer = setInterval(()=>{
+						if(enterRoomFlag){
+							clearInterval(checkEnterMainPageTimer);
+							return;
+						}
+						time += 200;
+						if(time > 20e3){
+							plus.navigator.setFullscreen(false);
+							timeoutFlag = true;
+							//超时未加载完成mainPage,跳转到登录页面
+							clearInterval(checkEnterMainPageTimer);
+							mui.fire(plus.webview.getLaunchWebview(), 'showLoginPage');
+						}
+					}, 200);
 				},
 				initDomainCardEvent: function() {					
 					//初始化域名卡片的页面
@@ -228,6 +293,50 @@
 							mui.alert("域名不允许为空");
 						}
 					})
+					$("#guestLoginBtn").on("click", function(){
+						let email = $('#emailInput').val() || '';
+						let nickName = $('#nickNameInput').val() || '';
+						var emailFilter  = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				        if (!emailFilter.test(email)) {
+				            if(lan == 'cn'){
+								mui.toast("邮箱不合法")
+							}else{
+								mui.toast("Please enter valid email")
+							}
+				            return
+				        }
+				        let startParams = indexApp.getStartParms();
+				        plus.nativeUI.showWaiting();
+				        mui.ajax(`${startParams.domain}/api/joinFromInvite`, {
+							crossDomain: true,
+							data:{'name':nickName,'email':email,'type':'guest','invite_token':startParams.token},
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型
+							timeout: 10000, //超时时间设置为10秒；
+							headers: {
+								'Content-Type': 'application/json',
+								'x-client-version': appVersion,
+								'x-client-type': clientType
+							},
+							success: function(data) {
+								plus.nativeUI.closeWaiting();
+								if (data.res<0) {
+									data.msg && mui.toast(data.msg);
+					                return;
+					            }else{
+					            		
+					            }
+							},
+							error: function(xhr, type, errorThrown) {
+								plus.nativeUI.closeWaiting();
+								if(lan == 'cn'){
+									mui.alert("进入会议失败")
+								}else{
+									mui.alert("Enter meeting error")
+								}
+							}
+						});
+					});
 					$("#loginBtn").on('click',function(){
 						let account = $('#accountInput').val();
 						let password = $('#passwordInput').val();
@@ -243,6 +352,9 @@
 							}else{
 								mui(this).button('loading');
 								indexApp.sysUserSignIn(data.api,account,md5(password),lan, (error, authData) => {
+									setTimeout(()=>{
+										mui(this).button('reset');
+									}, 20e3);
 									if(error) {
 										mui(this).button('reset');
 										return
@@ -266,6 +378,14 @@
 						indexApp.showDomainInput()
 						indexApp.hideLoginInput()
 					})
+					$("#touristBtn").on("click", function(){
+						indexApp.hideLoginInput()
+						indexApp.showGuestLoginInput()
+					})
+					$("#sysUserBtn").on("click", function(){
+						indexApp.hideGuestLoginInput()
+						indexApp.showLoginInput()
+					})
 					$('#lanChange').on('click',function(){
 						lan = lan == 'cn'? 'en' : 'cn';
 						indexApp.changeTextByLan(lan)
@@ -277,22 +397,20 @@
 					plus.storage.setItem("authUserId", authData.user._id);
 					plus.storage.setItem("userSip", JSON.stringify(authData.user.sip));
 					plus.storage.setItem("clientWarn", JSON.stringify(authData.warn || {}));
+					plus.storage.setItem("dataMainUrl", data.main);
+					
 					let _lan = lan;
 
 					if(authData.user.settings&&authData.user.settings.language){
 						_lan = authData.user.settings.language.toLowerCase()
-						console.log('after lan==-=-='+_lan)
 					}
-					console.log('finally lan=-=-=-='+_lan)
 					plus.storage.setItem("authLan",_lan)
 					let showGuide = plus.storage.getItem("lauchFlag");
 
 					if(showGuide) {
 						//有值，说明已经显示过了，无需显示；
 						indexApp.initMainLoadEvent()
-						//showOem && indexApp.showOemImg(`${domain}${data.oemLogo}`)
 						indexApp.preloadMain(`${domain}${data.main}`)
-						//indexApp.hideLoginInput()
 					} else {
 						//需要显示一下介绍页面
 						indexApp.showGuide()
@@ -366,6 +484,9 @@
 							callback('error')
 						}
 					});
+				},
+				getStartParms: function(){
+					return JSON.parse(plus.storage.getItem("startParms")) || {};
 				}
 			}
 
@@ -421,9 +542,54 @@
 				});
 			}
 			let lan = 'cn'
+			// 存储参数
+			function checkArguments(){
+			    var args= plus.runtime.arguments;
+			    var arg = {
+	        			launcher: plus.runtime.launcher
+	        		};
+			    if(args){
+			        // 处理args参数，如打开新页面等
+			        try{
+			        		arg = Object.assign(arg,JSON.parse(b64DecodeUnicode(args.replace(/^[^:]+:\/\//, ""))));
+			        }catch(e){
+			        }
+			    }
+			    plus.storage.setItem("startParms",JSON.stringify(arg));
+			}
+			// 使用schemes处理从后台恢复
+			document.addEventListener('newintent',function(){
+			    //checkArguments();
+
+			},false);
+			window.addEventListener('showLoginPage', function(event) {
+				var lan = plus.storage.getItem("authLan")?  plus.storage.getItem("authLan") : ('en-US' == plus.os.language ? 'en':'cn');
+				if('cn' == lan){
+					mui.alert("加载失败，请稍后重试");
+				}else{
+					mui.alert("Loading failed, please try again later");
+				}
+				var mainPage = plus.webview.getWebviewById('main');
+				//加载失败，先close预加载的mainPage页面
+				mainPage && mainPage.close();
+				indexApp.showLoginInput();
+				indexApp.preloadMain();
+			});
+			function b64EncodeUnicode(str) {
+			    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+			        function toSolidBytes(match, p1) {
+			            return String.fromCharCode('0x' + p1);
+			    }));
+			}
+			function b64DecodeUnicode(str) {
+			    return decodeURIComponent(atob(str).split('').map(function(c) {
+			        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+			    }).join(''));
+			}
 			mui.plusReady(function() {
+				//清空storage中的启动参数
+				plus.storage.setItem("startParms", "{}");
 				plus.navigator.setFullscreen(true);
-				
 				appVersion = plus.runtime.version || '1.2.170';
 				clientType = mui.os.ios ? 'ios' : 'android';
 				
@@ -442,15 +608,26 @@
 					r.stop();
 				}, 2000)
 				
-				let _domain = plus.storage.getItem("confDomain");
-				lan = plus.storage.getItem("authLan")?  plus.storage.getItem("authLan") : plus.os.language&&plus.os.language == 'zh_CN'? 'cn':'en' || 'cn'
+//				checkArguments(_domain);
+//				let arg = indexApp.getStartParms();
+//				mui.alert("==index startParams=="+JSON.stringify(arg))
+				let _domain = plus.storage.getItem("confDomain") || '';
+				lan = plus.storage.getItem("authLan")?  plus.storage.getItem("authLan") : ('en-US' == plus.os.language ? 'en':'cn')
 				indexApp.changeTextByLan(lan);
 				if(_domain) {
+					//TODO 处理有参数的逻辑
 					//有找到mobile的domain
 					initDomain(_domain)
 				} else {
-					//没找到domain,停留在启动页面，提示输入domain
-					indexApp.showDomainInput()
+//					if("invite" == arg.type && arg.domain){
+//			        		//存下domain
+//			        		$('#forEncrypt').html(arg.domain.substring(0, arg.domain.indexOf("://")));
+//			        		$('#domainInput').val(arg.domain.substring(arg.domain.indexOf("://")));
+//			        		$("#nextBtn").click();
+//			        }else{
+			        		//没找到domain,停留在启动页面，提示输入domain
+						indexApp.showDomainInput()
+//			        }
 					plus.navigator.closeSplashscreen();
 				}
 			})

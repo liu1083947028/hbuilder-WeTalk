@@ -249,10 +249,28 @@
 				gallery.slider().gotoItem(0);
 							//立即体验按钮点击事件
 				document.getElementById("close").addEventListener('tap', function(event) {
-					btnClick=true
+					btnClick=true;
+					var time = 0;
+					var checkEnterMainPageTimer = setInterval(()=>{
+						time += 200;
+						if(time > 20e3){
+							//超时未加载完成mainPage,跳转到登录页面
+							mui.fire(plus.webview.getLaunchWebview(), 'showLoginPage');
+							plus.webview.currentWebview().close();
+							clearInterval(checkEnterMainPageTimer);
+						}else{
+							if(pageLoaded){
+								clearInterval(checkEnterMainPageTimer);
+								//如果已经是加载完了，直接进入
+								gotoMainPage();
+							}
+						}
+					}, 200);
+					
 					if(pageLoaded){
+						clearInterval(checkEnterMainPageTimer);
 						//如果已经是加载完了，直接进入
-						gotoMainPage()
+						gotoMainPage();
 					}else{
 						//否则等待
 						plus.nativeUI.showWaiting()
@@ -288,12 +306,7 @@
 			});
 			
 			window.addEventListener('mainReady', function(event) {
-				//btnClick=false,pageLoaded=false;
 				pageLoaded=true
-				if(btnClick){
-					//已经点过了，直接进入
-					gotoMainPage()
-				} 
 			});
 			
 		</script>

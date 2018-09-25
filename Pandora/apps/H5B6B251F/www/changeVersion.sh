@@ -7,7 +7,7 @@ if [ "$2" == "www" ];then
     		rm -rf ${data}
     		cp -rf ${wwwDir}${data} ./${data}  
 	done
-	rm -rf  **/.svn
+	rm -rf  **/.svn ./img/icon ./img/launch
 fi
 
 wetalkDir='/Users/polylink/Dev/project/HBuilderProjects/WeTalkVersionResource/'

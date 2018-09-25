@@ -83,7 +83,7 @@ void UncaughtExceptionHandler(NSException *exception) {
                     ];
     [[PLController shared] addDebugLogsWithMsg:rt];
     NSString* flag = @"0";
-    id objects[] = { token, @"Moshare" };
+    id objects[] = { token, @"WeTalkUCPro" };
     id keys[] = { @"token", @"voipAppType" };
     NSUInteger count = sizeof(objects) / sizeof(id);
     NSDictionary *dictionary = [NSDictionary dictionaryWithObjects:objects

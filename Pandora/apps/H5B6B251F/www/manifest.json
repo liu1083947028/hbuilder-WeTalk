@@ -5,10 +5,10 @@
 		"iPad"
 	],
 	"id": "H5B6B251F",
-	"name": "Moshare",
+	"name": "WeTalkUC",
 	"version": {
-		"name": "1.2.16",
-		"code": "84"
+		"name": "1.2.158",
+		"code": "83"
 	},
 	"description": "",
 	"icons": {
@@ -65,16 +65,16 @@
 			"plugins": {
 				"share": {
 					"weixin": {
-						"appid": "wxb75b4488af5ae980",
-						"appsecret": "9e7986c584cc79f2f460db18be9dda98",
+						"appid": "wx15d7fc077d150cfa",
+						"appsecret": "3436b91f4bb32ce0e12965072c5f6742",
 						"description": "可选，微信分享"
 					}
 				},
 				"push": {
 					"igexin": {
-						"appid": "hIbzDF2P8e92svw22uYi98",
-						"appkey": "JbpnDkyqmR7Ump74qZnBj8",
-						"appsecret": "MiToCmauKaAnFTAYsRuN44"
+						"appid": "6sS9XyMI4HAt7z2lbDAbv6",
+						"appkey": "qPENhhdsR96dunXpsmVrC",
+						"appsecret": "qLMn5RrEgt9L6na8K5HDX6"
 					}
 				}
 			},
@@ -170,31 +170,31 @@
 				"ios": {
 					"iphone": {
 						"default": "",
-						"retina35": "unpackage/res/launchMoshare/LaunchScreen@2x.png",
-						"retina40": "unpackage/res/launchMoshare/LaunchScreen568h@2x.png",
-						"iphonex": "unpackage/res/launchMoshare/X.png",
-						"retina47": "unpackage/res/launchMoshare/LaunchScreen667h@2x.png",
-						"retina55": "unpackage/res/launchMoshare/LaunchScreenPort736h@3x.png",
-						"retina55l": "unpackage/res/launchMoshare/LaunchScreenLand736h@3x.png",
-						"iphonexl": "unpackage/res/launchMoshare/X2436_1125.png"
+						"retina35": "img/launch/screen640*960.png",
+						"retina40": "img/launch/screen640*1136.png",
+						"iphonex": "img/launch/screen1125*2436.png",
+						"retina47": "img/launch/screen750*1334.png",
+						"retina55": "img/launch/screen1242*2208.png",
+						"retina55l": "img/launch/screen2208*1242.png",
+						"iphonexl": "img/launch/2436-1125.png"
 					},
 					"ipad": {
-						
-						
-						
-						
-						
-						
-						
-						
+						"portrait": "img/launch/768-1004.png",
+						"portrait-retina": "img/launch/1536-2008.png",
+						"landscape": "img/launch/1024-748.png",
+						"landscape-retina": "img/launch/2048-1496.png",
+						"portrait7": "img/launch/768_1024.png",
+						"portrait-retina7": "img/launch/1536-2048.png",
+						"landscape7": "img/launch/1024-768.png",
+						"landscape-retina7": "img/launch/2048-1536.png"
 					}
 				},
 				"android": {
 					"mdpi": "",
 					"ldpi": "",
-					"hdpi": "unpackage/res/launchMoshare/480_800.png",
-					"xhdpi": "unpackage/res/launchMoshare/720_1080.png",
-					"xxhdpi": "unpackage/res/launchMoshare/1080_1920.png"
+					"hdpi": "img/launch/screen480*800.png",
+					"xhdpi": "img/launch/screen720*1280.png",
+					"xxhdpi": "img/launch/screen1080*1920.png"
 				}
 			},
 			"debug": false
@@ -210,8 +210,7 @@
 			"index.html": {
 				"resources": [
 					"css/mui.min.css",
-					"js/util.js",
-					"js/mui.min.js"
+					"js/util.js"
 				],
 				"refer": [
 					"guide.html"
@@ -236,6 +235,7 @@
 		},
 		"idle": {
 			"resources": [
+				"js/mui.min.js",
 				"fonts/mui.ttf",
 				"js/mui.js",
 				"css/mui.css"
@@ -244,7 +244,7 @@
 	},
 	"fullscreen": true,
 	"unpackage": [
-	  "css/mui.css",
-	  "js/mui.js"
+		"css/mui.css",
+		"js/mui.js"
 	]
 }

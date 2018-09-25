@@ -1240,17 +1240,12 @@
 				  		this.number ++;
 				  		if(this.number == 6){
 				  			mui.toast('SSR version: '+CONFIG.version);
-				  		}else if(this.number == 8){
+				  		}else if(this.number == 8 && mui.os.ios){
 				  			var msg = plus.messaging.createMessage(plus.messaging.TYPE_EMAIL);
 							msg.to = ['frank.liu@polylink.net'];
 							msg.subject = '软电话SDK日志';
 							UTIL.getSDKLogs((err, result)=>{
-//								msg.body = "result";
-//								plus.messaging.sendMessage( msg, function () {
-//									mui.alert( "Send success!" );
-//								}, function () {
-									plus.nativeUI.alert('===result==='+result+'==typeof result=='+ typeof result)
-//								} );
+								plus.nativeUI.alert('======sdk log:'+result);
 							});
 				  		}
 				  	}
